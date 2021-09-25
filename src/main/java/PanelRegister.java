@@ -8,9 +8,9 @@ public class PanelRegister extends JPanel implements ActionListener {
 
     private final int width = 400,height = 600;
 
-    private final JLabel idLabel,firstNameLabel,lastNameLabel, passwordLabel, repeatPasswordLabel,nickLabel;
+    private final JLabel loginLabel,firstNameLabel,lastNameLabel, passwordLabel, repeatPasswordLabel,nickLabel;
 
-    private final JTextField idField,fNField,lNField, nickField;
+    private final JTextField loginField,fNField,lNField, nickField;
     private final JPasswordField passwordField,rPasswordField;
 
     private final JRadioButton showPasswordButton;
@@ -23,9 +23,9 @@ public class PanelRegister extends JPanel implements ActionListener {
 
         setLayout(null);
 
-        idLabel = new JLabel("ID: ");
-        idLabel.setBounds(20, 20, 100, 30);
-        add(idLabel);
+        loginLabel = new JLabel("ID: ");
+        loginLabel.setBounds(20, 20, 100, 30);
+        add(loginLabel);
 
         firstNameLabel = new JLabel("First Name: ");
         firstNameLabel.setBounds(20, 70, 100, 30);
@@ -39,7 +39,7 @@ public class PanelRegister extends JPanel implements ActionListener {
         passwordLabel.setBounds(20,  170, 100, 30);
         add(passwordLabel);
 
-        repeatPasswordLabel = new JLabel("Reapet Password: ");
+        repeatPasswordLabel = new JLabel("Repeat Password: ");
         repeatPasswordLabel.setBounds(20, 230, 100, 30);
         add(repeatPasswordLabel);
 
@@ -47,9 +47,9 @@ public class PanelRegister extends JPanel implements ActionListener {
         nickLabel.setBounds(20,  280, 100, 30);
         add(nickLabel);
 
-        idField = new JTextField();
-        idField.setBounds(150, 20, 100, 30);
-        add(idField);
+        loginField = new JTextField();
+        loginField.setBounds(150, 20, 100, 30);
+        add(loginField);
 
         fNField = new JTextField();
         fNField.setBounds(150, 70, 100, 30);
@@ -98,7 +98,7 @@ public class PanelRegister extends JPanel implements ActionListener {
         if (e.getSource() == registerButton) {
 
             JOptionPane.showMessageDialog(this, "Jeszcze nic tu nie ma ");
-            DataBase.getPlayerDataBase().addPlayer(new Player(fNField.getText(),lNField.getText(),idField.getText(),passwordField.getText(),nickField.getText(),0,0));
+            DataBase.getPlayerDataBase().addPlayer(new Player(fNField.getText(),lNField.getText(),loginField.getText(),passwordField.getText(),nickField.getText(),0,0));
 
         }
         if(e.getSource() == backButton){
