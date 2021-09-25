@@ -77,7 +77,7 @@ public class DataBase {
             s.save(p3);
 
             s.getTransaction().commit();
-
+            s.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,14 +98,16 @@ public class DataBase {
                 scoreBoard.put(((Player) o).getNickName(), ((Player) o).getMaxRecord());
             }
             s.getTransaction().commit();
-
+            s.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void addPlayer(Player player) {
+
         try {
+
             SessionFactory session = new Configuration().configure().buildSessionFactory();
             Session s = session.openSession();
 
@@ -114,7 +116,7 @@ public class DataBase {
             s.persist(player);
 
             s.getTransaction().commit();
-
+            s.close();
         }catch(Exception e ) {
             e.printStackTrace();
         }

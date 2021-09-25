@@ -70,8 +70,6 @@ public class PanelWelcome extends JPanel implements ActionListener {
 
     }
 
-
-
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
             JOptionPane.showMessageDialog(this, "Jeszcze nic tu nie ma ");
@@ -81,7 +79,7 @@ public class PanelWelcome extends JPanel implements ActionListener {
             Window win = SwingUtilities.getWindowAncestor(this);
             win.dispose();
 
-            FrameRegister  fR = new FrameRegister(new PanelRegister());
+            FrameRegister fR = new FrameRegister(new PanelRegister());
         }
         if (e.getSource() == playAsGuestButton) {
             JOptionPane.showMessageDialog(this, "Jeszcze nic tu nie ma ");
@@ -89,11 +87,13 @@ public class PanelWelcome extends JPanel implements ActionListener {
 
         }
         if (showPasswordButton.isSelected() == true) {
-            passwordField.setEchoChar((char)0);
+            passwordField.setEchoChar((char) 0);
 
         } else {
             passwordField.setEchoChar('*');
-        }	}
+        }
+    }
+
 
 }
 

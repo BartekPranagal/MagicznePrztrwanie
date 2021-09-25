@@ -15,7 +15,9 @@ public class Main {
                 FrameWelcome welcomeWindow = new FrameWelcome(new PanelWelcome());
 
             }
+
         });
     }
 }
+
 //SPRAWDZAM CZY DZIALA EDYCJA - BARTEK P.

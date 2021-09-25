@@ -1,22 +1,23 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
 public class PanelRegister extends JPanel implements ActionListener {
 
-    private final int width = 400,height = 600;
+    private final int width = 400, height = 600;
 
-    private final JLabel loginLabel,firstNameLabel,lastNameLabel, passwordLabel, repeatPasswordLabel,nickLabel;
+    private final JLabel loginLabel, firstNameLabel, lastNameLabel, passwordLabel, repeatPasswordLabel, nickLabel;
 
-    private final JTextField loginField,fNField,lNField, nickField;
-    private final JPasswordField passwordField,rPasswordField;
+    private final JTextField loginField, fNField, lNField, nickField;
+    private final JPasswordField passwordField, rPasswordField;
 
     private final JRadioButton showPasswordButton;
 
     private final JButton registerButton, backButton;
-
 
 
     public PanelRegister() {
@@ -36,15 +37,16 @@ public class PanelRegister extends JPanel implements ActionListener {
         add(lastNameLabel);
 
         passwordLabel = new JLabel("Password: ");
-        passwordLabel.setBounds(20,  170, 100, 30);
+        passwordLabel.setBounds(20, 170, 100, 30);
         add(passwordLabel);
+
 
         repeatPasswordLabel = new JLabel("Repeat Password: ");
         repeatPasswordLabel.setBounds(20, 230, 100, 30);
         add(repeatPasswordLabel);
 
         nickLabel = new JLabel("Nick:");
-        nickLabel.setBounds(20,  280, 100, 30);
+        nickLabel.setBounds(20, 280, 100, 30);
         add(nickLabel);
 
         loginField = new JTextField();
@@ -59,9 +61,44 @@ public class PanelRegister extends JPanel implements ActionListener {
         lNField.setBounds(150, 120, 100, 30);
         add(lNField);
 
+        String passwordInfo = "- musi mieć 8 - 15 znaków \n- 1 wielką literę\n- 1 cyfrę\n- 1 znak specjalny";
+        JTextPane passwordInfoArea = new JTextPane();
+        passwordInfoArea.setText(passwordInfo);
+        passwordInfoArea.setBounds(200, 200, 180, 80);
+        passwordInfoArea.setBackground(Color.CYAN);
+        passwordInfoArea.setVisible(false);
+        add(passwordInfoArea);
+
         passwordField = new JPasswordField();
         passwordField.setBounds(150, 170, 100, 30);
+        passwordField.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                passwordInfoArea.setVisible(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                passwordInfoArea.setVisible(false);
+            }
+        });
         add(passwordField);
+
 
         rPasswordField = new JPasswordField();
         rPasswordField.setBounds(150, 230, 100, 30);
@@ -81,7 +118,6 @@ public class PanelRegister extends JPanel implements ActionListener {
         registerButton.addActionListener(this);
         add(registerButton);
 
-
         backButton = new JButton("BACK");
         backButton.setBounds(50, 350, 150, 40);
         backButton.addActionListener(this);
@@ -91,26 +127,27 @@ public class PanelRegister extends JPanel implements ActionListener {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(width,height);
+        return new Dimension(width, height);
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == registerButton) {
 
-            JOptionPane.showMessageDialog(this, "Jeszcze nic tu nie ma ");
-            DataBase.getPlayerDataBase().addPlayer(new Player(fNField.getText(),lNField.getText(),loginField.getText(),passwordField.getText(),nickField.getText(),0,0));
+        if (e.getSource() == registerButton) {
+            if (isPasswordCorrect(passwordField.getText(), passwordField.getText()))
+                DataBase.getPlayerDataBase().addPlayer(new Player(fNField.getText(), lNField.getText(), loginField.getText(), passwordField.getText(), nickField.getText(), 0, 0));
 
         }
-        if(e.getSource() == backButton){
+
+        if (e.getSource() == backButton) {
             Window win = SwingUtilities.getWindowAncestor(this);
             win.dispose();
 
-            FrameWelcome  fW = new FrameWelcome(new PanelWelcome());
+            FrameWelcome fW = new FrameWelcome(new PanelWelcome());
         }
 
         if (showPasswordButton.isSelected() == true) {
-            passwordField.setEchoChar((char)0);
-            rPasswordField.setEchoChar((char)0);
+            passwordField.setEchoChar((char) 0);
+            rPasswordField.setEchoChar((char) 0);
 
         } else {
             passwordField.setEchoChar('*');
@@ -118,6 +155,50 @@ public class PanelRegister extends JPanel implements ActionListener {
         }
     }
 
+
+    //łopatologiczne sprawdzanie znaków w haśle
+
+    private boolean isPasswordAccepted(String password) {
+
+        int specialCharAmount = 0, digitAmount = 0, capitalAmount = 0;
+        for (int i = 0; i < password.length(); i++) {
+            if ((password.charAt(i) >= 33 && password.charAt(i) <= 47)
+                    || (password.charAt(i) >= 58 && password.charAt(i) <= 64)
+                    || (password.charAt(i) >= 91 && password.charAt(i) <= 96)
+                    || (password.charAt(i) >= 123 && password.charAt(i) <= 125)) specialCharAmount++;
+
+            if (password.charAt(i) >= 48 && (password.charAt(i) <= 57)) digitAmount++;
+
+            if (password.charAt(i) >= 65 && password.charAt(i) <= 90) capitalAmount++;
+
+
+        }
+
+        return specialCharAmount >= 1 && digitAmount >= 1 && capitalAmount >= 1;
+    }
+
+    private boolean isPasswordLengthAccepted(String password) {
+        return password.length() >= 8 && password.length() <= 15;
+    }
+
+    private boolean isPasswoordRepeatedAccepted(String password, String repeatedPassword) {
+        return password.equals(repeatedPassword);
+    }
+
+    //Sprawdzanie poszczególnych aspektów hasła
+
+    private boolean isPasswordCorrect(String password, String repeatedPassword) {
+
+        if (!isPasswordAccepted(password))
+            JOptionPane.showMessageDialog(this, "Hasło nieprawidłowe!");
+        else if (!isPasswoordRepeatedAccepted(password, repeatedPassword))
+            JOptionPane.showMessageDialog(this, "Hasła nie są identyczne");
+        else if (!isPasswordLengthAccepted(password))
+            JOptionPane.showMessageDialog(this, "Podane hasło jest za krótkie");
+
+
+        return isPasswordAccepted(password) && isPasswordLengthAccepted(password) && isPasswoordRepeatedAccepted(password, repeatedPassword);
+    }
 
 }
 
