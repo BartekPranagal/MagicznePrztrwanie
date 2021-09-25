@@ -18,3 +18,4 @@ public class Main {
         });
     }
 }
+//SPRAWDZAM CZY DZIALA EDYCJA - BARTEK P.
