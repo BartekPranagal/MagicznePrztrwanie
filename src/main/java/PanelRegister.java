@@ -1,4 +1,4 @@
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,7 +15,7 @@ public class PanelRegister extends JPanel implements ActionListener {
 
     private final JRadioButton showPasswordButton;
 
-    private final JButton registerButton;
+    private final JButton registerButton, backButton;
 
 
 
@@ -76,11 +76,16 @@ public class PanelRegister extends JPanel implements ActionListener {
         showPasswordButton.addActionListener(this);
         add(showPasswordButton);
 
-        this.registerButton = new JButton("REGISTER");
-        this.registerButton.setBounds(200, 350, 150, 40);
-        this.registerButton.addActionListener(this);
-        add(this.registerButton);
+        registerButton = new JButton("REGISTER");
+        registerButton.setBounds(200, 350, 150, 40);
+        registerButton.addActionListener(this);
+        add(registerButton);
 
+
+        backButton = new JButton("BACK");
+        backButton.setBounds(50, 350, 150, 40);
+        backButton.addActionListener(this);
+        add(backButton);
 
     }
 
@@ -93,6 +98,12 @@ public class PanelRegister extends JPanel implements ActionListener {
         if (e.getSource() == registerButton) {
             JOptionPane.showMessageDialog(this, "Jeszcze nic tu nie ma ");
 
+        }
+        if(e.getSource() == backButton){
+            Window win = SwingUtilities.getWindowAncestor(this);
+            win.dispose();
+
+            FrameWelcome  fW = new FrameWelcome(new PanelWelcome());
         }
 
         if (showPasswordButton.isSelected() == true) {
