@@ -45,6 +45,7 @@ public class DataBase {
     }
 
     private void sampleDataBase() {
+
         try {
             SessionFactory session = new Configuration().configure().buildSessionFactory();
             Session s = session.openSession();

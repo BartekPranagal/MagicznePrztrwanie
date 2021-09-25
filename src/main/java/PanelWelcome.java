@@ -15,6 +15,19 @@ public class PanelWelcome extends JPanel implements ActionListener {
     private final JButton loginButton, registerButton, playAsGuestButton;
     private final JRadioButton showPasswordButton;
 
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(width, height);
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public PanelWelcome() {
         setLayout(null);
 
@@ -57,21 +70,11 @@ public class PanelWelcome extends JPanel implements ActionListener {
 
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(width, height);
-    }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
+            JOptionPane.showMessageDialog(this, "Jeszcze nic tu nie ma ");
 
         }
         if (e.getSource() == registerButton) {
