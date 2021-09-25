@@ -82,8 +82,9 @@ public class PanelWelcome extends JPanel implements ActionListener {
             FrameRegister fR = new FrameRegister(new PanelRegister());
         }
         if (e.getSource() == playAsGuestButton) {
-            JOptionPane.showMessageDialog(this, "Jeszcze nic tu nie ma ");
-            System.exit(0);
+            Window win = SwingUtilities.getWindowAncestor(this);
+            win.dispose();
+            FrameGame frameGame = new FrameGame(new PanelGame());
 
         }
         if (showPasswordButton.isSelected() == true) {
