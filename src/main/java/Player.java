@@ -30,6 +30,21 @@ public class Player implements Serializable {
     @Column
     private int maxRecord;
 
+    public Player () {
+
+    }
+
+    public Player(String firstName, String lastName, String login, String password, String nickName, int score, int maxRecord) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.password = password;
+        this.nickName = nickName;
+        this.score = score;
+        this.maxRecord = maxRecord;
+    }
+
     public int getPlayerId() {
         return playerId;
     }

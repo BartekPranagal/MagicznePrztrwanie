@@ -91,7 +91,9 @@ public class PanelRegister extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == registerButton) {
+
             JOptionPane.showMessageDialog(this, "Jeszcze nic tu nie ma ");
+            DataBase.getPlayerDataBase().addPlayer(new Player(fNField.getText(),lNField.getText(),idField.getText(),passwordField.getText(),nickField.getText(),0,0));
 
         }
 
