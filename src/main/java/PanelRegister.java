@@ -8,19 +8,19 @@ public class PanelRegister extends JPanel implements ActionListener {
 
     private final int width = 400,height = 600;
 
-    private final JLabel idLabel,firstNameLabel,lastNameLabel,
-            passwordLabel,reapetPasswordLabel,nickLabel;
+    private final JLabel idLabel,firstNameLabel,lastNameLabel, passwordLabel, repeatPasswordLabel,nickLabel;
 
-    private final JTextField idField,fNField,lNField,
-            nickField;
-
+    private final JTextField idField,fNField,lNField, nickField;
     private final JPasswordField passwordField,rPasswordField;
 
     private final JRadioButton showPasswordButton;
 
+    private final JButton registerButton;
 
 
-    public PanelRegister () {
+
+    public PanelRegister() {
+
         setLayout(null);
 
         idLabel = new JLabel("ID: ");
@@ -39,9 +39,9 @@ public class PanelRegister extends JPanel implements ActionListener {
         passwordLabel.setBounds(20,  170, 100, 30);
         add(passwordLabel);
 
-        reapetPasswordLabel = new JLabel("Reapet Password: ");
-        reapetPasswordLabel.setBounds(20, 230, 100, 30);
-        add(reapetPasswordLabel);
+        repeatPasswordLabel = new JLabel("Reapet Password: ");
+        repeatPasswordLabel.setBounds(20, 230, 100, 30);
+        add(repeatPasswordLabel);
 
         nickLabel = new JLabel("Nick:");
         nickLabel.setBounds(20,  280, 100, 30);
@@ -76,6 +76,11 @@ public class PanelRegister extends JPanel implements ActionListener {
         showPasswordButton.addActionListener(this);
         add(showPasswordButton);
 
+        this.registerButton = new JButton("REGISTER");
+        this.registerButton.setBounds(200, 350, 150, 40);
+        this.registerButton.addActionListener(this);
+        add(this.registerButton);
+
 
     }
 
@@ -85,6 +90,11 @@ public class PanelRegister extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == registerButton) {
+            JOptionPane.showMessageDialog(this, "Jeszcze nic tu nie ma ");
+
+        }
+
         if (showPasswordButton.isSelected() == true) {
             passwordField.setEchoChar((char)0);
             rPasswordField.setEchoChar((char)0);
