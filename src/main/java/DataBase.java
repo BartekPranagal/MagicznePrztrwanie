@@ -11,19 +11,18 @@ public class DataBase {
     private static DataBase playerDataBase;
 
     private List<Player> players = new ArrayList<Player>();
-    private Map<String,Integer> scoreBoard = new HashMap<>();
+    private Map<String, Integer> scoreBoard = new HashMap<>();
 
-    private DataBase () {
+    private DataBase() {
         sampleDataBase();
         loadScoreBoard();
 
     }
 
-
     public static DataBase getPlayerDataBase() {
-        if(playerDataBase == null) {
+        if (playerDataBase == null) {
             synchronized (DataBase.class) {
-                if(playerDataBase == null) {
+                if (playerDataBase == null) {
                     playerDataBase = new DataBase();
                 }
 
@@ -32,9 +31,6 @@ public class DataBase {
         }
         return playerDataBase;
     }
-
-
-
 
     public List<Player> getPlayers() {
         return players;
@@ -49,7 +45,6 @@ public class DataBase {
         try {
             SessionFactory session = new Configuration().configure().buildSessionFactory();
             Session s = session.openSession();
-
 
             s.beginTransaction();
 
@@ -81,7 +76,6 @@ public class DataBase {
             s.save(p2);
             s.save(p3);
 
-
             s.getTransaction().commit();
 
         } catch (Exception e) {
@@ -94,13 +88,11 @@ public class DataBase {
             SessionFactory session = new Configuration().configure().buildSessionFactory();
             Session s = session.openSession();
 
-
             s.beginTransaction();
 
             Query query = s.createQuery("FROM Player");
 
-
-            for (Iterator iterator = query.list().iterator(); iterator.hasNext();) {
+            for (Iterator iterator = query.list().iterator(); iterator.hasNext(); ) {
                 Object o = iterator.next();
                 players.add((Player) o);
                 scoreBoard.put(((Player) o).getNickName(), ((Player) o).getMaxRecord());
@@ -110,10 +102,23 @@ public class DataBase {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
+    public void addPlayer(Player player) {
+        try {
+            SessionFactory session = new Configuration().configure().buildSessionFactory();
+            Session s = session.openSession();
 
+            s.beginTransaction();
+
+            s.persist(player);
+
+            s.getTransaction().commit();
+
+        }catch(Exception e ) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
