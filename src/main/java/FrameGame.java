@@ -2,11 +2,15 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class FrameGame extends JFrame implements KeyListener {
+public class FrameGame extends JFrame implements KeyListener, MouseMotionListener {
+
+    int mouseX,mouseY;
 
     PanelGame pg;
     public FrameGame(PanelGame pg) {
@@ -16,6 +20,7 @@ public class FrameGame extends JFrame implements KeyListener {
         setSize(pg.getPreferredSize());
         setDefaultCloseOperation(3);
         setLocationRelativeTo(null);
+        addKeyListener(this);
         add(pg);
         pack();
     }
@@ -28,6 +33,7 @@ public class FrameGame extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+
         if (e.getKeyCode() == KeyEvent.VK_D) { // poruszanie sie w prawo
             if (pg.game.bohater.getX() >= 0 && pg.game.bohater.getX() + pg.game.bohater.getCharWidth() <= pg.getWidth())
                 pg.game.bohater.setX(pg.game.bohater.getX() + pg.game.bohater.getSpeed());
@@ -104,6 +110,16 @@ public class FrameGame extends JFrame implements KeyListener {
 
             pg.repaint();
         }
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
     }
 }
 

@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class PanelGame extends JPanel {
 
-    Game game = new Game();
+    Game game;
 
     private final int width = 1000,height = 800;
     BufferedImage tlo;
@@ -21,10 +21,11 @@ public class PanelGame extends JPanel {
     public void paint(Graphics g) {
         super.paint(g);
         g.drawImage(tlo, 0, 0, getWidth(), getHeight(), null);
-        paintHero(g,0,0);
+        paintHero(g,game.bohater.getX(),game.bohater.getY());
     }
 
     public PanelGame(){
+        game = new Game();
         try{
             tlo = ImageIO.read(new File("tlo.jpg"));
         } catch (IOException e) {

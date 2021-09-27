@@ -54,7 +54,7 @@ public class Hero extends Character{ // klasa bohater
 
     public Hero() {
         try {
-            // wstawienie obraz bohatera
+            heroImage = ImageIO.read(new File("postac.png"));
         }catch(Exception e ) {
             e.printStackTrace();
         }
