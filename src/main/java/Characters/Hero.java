@@ -2,7 +2,9 @@ package Characters;
 
 import Skills.*;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,5 +50,13 @@ public class Hero extends Character{ // klasa bohater
 
     public void setMagicBook(Map<String, Skill> magicBook) {
         this.magicBook = magicBook;
+    }
+
+    public Hero() {
+        try {
+            // wstawienie obraz bohatera
+        }catch(Exception e ) {
+            e.printStackTrace();
+        }
     }
 }
