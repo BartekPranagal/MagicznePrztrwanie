@@ -6,6 +6,7 @@ public class Main {
         DataBase db = DataBase.getPlayerDataBase();
         System.out.println(db.getScoreBoard().isEmpty());
 
+
         for(String key : db.getScoreBoard().keySet())
             System.out.println(key + " " + db.getScoreBoard().get(key));
 
@@ -17,7 +18,6 @@ public class Main {
             }
 
         });
+
     }
 }
-
-//SPRAWDZAM CZY DZIALA EDYCJA - BARTEK P.
