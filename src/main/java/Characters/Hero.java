@@ -13,12 +13,22 @@ public class Hero extends Character{ // klasa bohater
     //private int level;
 
     private int currentExp;
+
     private Level level;
 
     private BufferedImage heroImage;
 
     private Map<String, Skill> magicBook = new HashMap<String, Skill>();
 
+    private int movementSpeed;
+
+    public int getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public void setMovementSpeed(int movementSpeed) {
+        this.movementSpeed = movementSpeed;
+    }
 
     public int getCurrentExp() {
         return currentExp;

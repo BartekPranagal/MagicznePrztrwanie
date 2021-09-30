@@ -86,6 +86,7 @@ public class PanelWelcome extends JPanel implements ActionListener {
             win.dispose();
             FrameGame frameGame = new FrameGame(new PanelGame());
 
+
         }
         if (showPasswordButton.isSelected() == true) {
             passwordField.setEchoChar((char) 0);

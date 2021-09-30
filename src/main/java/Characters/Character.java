@@ -3,7 +3,7 @@ package Characters;
 public abstract class Character { //klasa abstrakcyjna zawierająca podstawowe pola dla pozostałych
 
     private int x,y;
-    private int charWidth,charHeight;
+    private int width, height;
 
     private int maxHp;
     private int currentHp;
@@ -11,6 +11,21 @@ public abstract class Character { //klasa abstrakcyjna zawierająca podstawowe p
     private int baseDmg;
     private int speed;
     private int armor;
+
+    public Character(int x, int y, int width, int height, int maxHp, int currentHp, int baseDmg, int speed, int armor) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.maxHp = maxHp;
+        this.currentHp = currentHp;
+        this.baseDmg = baseDmg;
+        this.speed = speed;
+        this.armor = armor;
+    }
+
+    public Character() {
+    }
 
     public int getX() {
         return x;
@@ -28,20 +43,20 @@ public abstract class Character { //klasa abstrakcyjna zawierająca podstawowe p
         this.y = y;
     }
 
-    public int getCharWidth() {
-        return charWidth;
+    public int getWidth() {
+        return width;
     }
 
-    public void setCharWidth(int charWidth) {
-        this.charWidth = charWidth;
+    public void setWidth(int width) {
+        this.width = width;
     }
 
-    public int getCharHeight() {
-        return charHeight;
+    public int getHeight() {
+        return height;
     }
 
-    public void setCharHeight(int charHeight) {
-        this.charHeight = charHeight;
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public int getMaxHp() {
