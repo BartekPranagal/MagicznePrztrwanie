@@ -1,125 +1,64 @@
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.*;
+import java.awt.event.*;
 
-public class FrameGame extends JFrame implements KeyListener, MouseMotionListener {
+public class FrameGame extends JFrame implements  MouseMotionListener {
 
-    int mouseX,mouseY;
+    int mouseX, mouseY;
 
     PanelGame pg;
+
     public FrameGame(PanelGame pg) {
-        this.pg =pg;
+        this.pg = pg;
         setVisible(true);
         setTitle("Game");
         setSize(pg.getPreferredSize());
         setDefaultCloseOperation(3);
         setLocationRelativeTo(null);
-        addKeyListener(this);
+        addMouseMotionListener(this);
         add(pg);
         pack();
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
 
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-        if (e.getKeyCode() == KeyEvent.VK_D) { // poruszanie sie w prawo
-            if (pg.game.bohater.getX() >= 0 && pg.game.bohater.getX() + pg.game.bohater.getCharWidth() <= pg.getWidth())
-                pg.game.bohater.setX(pg.game.bohater.getX() + pg.game.bohater.getSpeed());
-
-            if (pg.game.bohater.getX() + pg.game.bohater.getCharWidth() > pg.getWidth())
-                pg.game.bohater.setX(pg.getWidth() - pg.game.bohater.getCharWidth() - 1);
-
-            pg.repaint();
-        }
-        if (e.getKeyCode() == KeyEvent.VK_A) { // poruszanie sie w lewo
-            if (pg.game.bohater.getX() >= 0 && pg.game.bohater.getX() + pg.game.bohater.getCharWidth() <= pg.getWidth())
-                pg.game.bohater.setX(pg.game.bohater.getX() - pg.game.bohater.getSpeed());
-
-            if (pg.game.bohater.getX() < 0)
-                pg.game.bohater.setX(1);
-
-            pg.repaint();
-        }
-
-        if(e.getKeyCode() == KeyEvent.VK_S){ // poruszanie sie w dol
-            if(pg.game.bohater.getY() >=0 && pg.game.bohater.getY()+pg.game.bohater.getCharHeight() <= pg.getHeight())
-                pg.game.bohater.setY(pg.game.bohater.getY()+pg.game.bohater.getSpeed());
-            if(pg.game.bohater.getY() < 0)
-                pg.game.bohater.setY(1);
-
-            pg.repaint();
-        }
-
-        if(e.getKeyCode() == KeyEvent.VK_W){ // poruszanie sie w gore
-            if(pg.game.bohater.getY() >=0 && pg.game.bohater.getY()+pg.game.bohater.getCharHeight() <= pg.getHeight())
-                pg.game.bohater.setY(pg.game.bohater.getY()-pg.game.bohater.getSpeed());
-            if (pg.game.bohater.getY() + pg.game.bohater.getCharHeight() > pg.getHeight())
-                pg.game.bohater.setY(pg.getHeight() - pg.game.bohater.getCharHeight() - 1);
-
-            pg.repaint();
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_D) { // poruszanie sie w prawo
-            if (pg.game.bohater.getX() >= 0 && pg.game.bohater.getX() + pg.game.bohater.getCharWidth() <= pg.getWidth())
-                pg.game.bohater.setX(pg.game.bohater.getX() + pg.game.bohater.getSpeed());
-
-            if (pg.game.bohater.getX() + pg.game.bohater.getCharWidth() > pg.getWidth())
-                pg.game.bohater.setX(pg.getWidth() - pg.game.bohater.getCharWidth() - 1);
-
-            pg.repaint();
-        }
-        if (e.getKeyCode() == KeyEvent.VK_A) { // poruszanie sie w lewo
-            if (pg.game.bohater.getX() >= 0 && pg.game.bohater.getX() + pg.game.bohater.getCharWidth() <= pg.getWidth())
-                pg.game.bohater.setX(pg.game.bohater.getX() - pg.game.bohater.getSpeed());
-
-            if (pg.game.bohater.getX() < 0)
-                pg.game.bohater.setX(1);
-
-            pg.repaint();
-        }
-
-        if(e.getKeyCode() == KeyEvent.VK_S){ // poruszanie sie w dol
-            if(pg.game.bohater.getY() >=0 && pg.game.bohater.getY()+pg.game.bohater.getCharHeight() <= pg.getHeight())
-                pg.game.bohater.setY(pg.game.bohater.getY()+pg.game.bohater.getSpeed());
-            if(pg.game.bohater.getY() < 0)
-                pg.game.bohater.setY(1);
-
-            pg.repaint();
-        }
-
-        if(e.getKeyCode() == KeyEvent.VK_W){ // poruszanie sie w gore
-            if(pg.game.bohater.getY() >=0 && pg.game.bohater.getY()+pg.game.bohater.getCharHeight() <= pg.getHeight())
-                pg.game.bohater.setY(pg.game.bohater.getY()-pg.game.bohater.getSpeed());
-            if (pg.game.bohater.getY() + pg.game.bohater.getCharHeight() > pg.getHeight())
-                pg.game.bohater.setY(pg.getHeight() - pg.game.bohater.getCharHeight() - 1);
-
-            pg.repaint();
-        }
-    }
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        pg.game.cursor = e.getPoint();
 
+        pg.game.cursor.x -= pg.game.bohater.getWidth()/2;
+        pg.game.cursor.y -= pg.game.bohater.getHeight();
+
+        if(!pg.game.cursor.equals(new Point(pg.game.bohater.getX()+pg.game.bohater.getWidth()/2, pg.game.bohater.getY()+pg.game.bohater.getHeight()/2))) {
+            Point speedV = new Point(pg.game.bohater.getSpeed(),pg.game.bohater.getSpeed());
+            if(pg.game.cursor.x > pg.game.bohater.getX())
+                pg.game.bohater.setX(pg.game.bohater.getX() + speedV.x);
+            if(pg.game.cursor.x < pg.game.bohater.getX())
+                pg.game.bohater.setX(pg.game.bohater.getX() - speedV.x);
+            if(pg.game.cursor.y > pg.game.bohater.getY())
+                pg.game.bohater.setY(pg.game.bohater.getY() + speedV.y);
+            if(pg.game.cursor.y < pg.game.bohater.getY())
+                pg.game.bohater.setY(pg.game.bohater.getY() - speedV.y);
+        }
+        if (pg.game.bohater.getX() < 0) pg.game.bohater.setX(0);
+        if(pg.game.bohater.getY() < 0) pg.game.bohater.setY(0);
+        if(pg.game.bohater.getX()+ pg.game.bohater.getWidth() > pg.getWidth()) pg.game.bohater.setX(pg.getWidth() -pg.game.bohater.getWidth() );
+        if (pg.game.bohater.getY() + pg.game.bohater.getHeight() > pg.getHeight()  ) pg.game.bohater.setY(pg.getHeight() - pg.game.bohater.getHeight());
+
+        try {
+            Thread.sleep(pg.game.bohater.getMovementSpeed());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        pg.repaint();
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
 
     }
+
+
 }
 
