@@ -71,8 +71,9 @@ public abstract class Character { //klasa abstrakcyjna zawierająca podstawowe p
         return currentHp;
     }
 
-    public void setCurrentHp(int currentHp) {
+    public int setCurrentHp(int currentHp) {
         this.currentHp = currentHp;
+        return currentHp;
     }
 
     public int getBaseDmg() {
