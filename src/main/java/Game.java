@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Game {
 
+    EnemyType enemyType;
     Enemy enemy = new Enemy();
     Hero bohater;
     List<Enemy> enemies = new ArrayList<Enemy>();
@@ -23,6 +24,8 @@ public class Game {
         bohater.setHeight(50);
         bohater.setSpeed(2);
         bohater.setMovementSpeed(10);
+        bohater.setMaxHp(200);
+        bohater.setCurrentHp(200);
         sampleEnemies();
     }
 
@@ -36,6 +39,8 @@ public class Game {
         enemies.add(new Enemy(EnemyType.SPEEDY));
         enemies.add(new Enemy(EnemyType.SPEEDY));
         enemies.add(new Enemy(EnemyType.SPEEDY));
+
+
 
 
     }
