@@ -1,16 +1,19 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
 public class PanelWelcome extends JPanel implements ActionListener {
 
     private final int width = 300, height = 300;
-
+    BufferedImage tloWelcome;
     private final JLabel loginLabel, passwordLabel;
     private final JTextField loginField;
     private final JPasswordField passwordField;
@@ -30,7 +33,21 @@ public class PanelWelcome extends JPanel implements ActionListener {
         return height;
     }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(tloWelcome, 0, 0, getWidth(), getHeight(), null);
+    }
+
     public PanelWelcome() {
+
+
+        try {
+            tloWelcome = ImageIO.read(new File("tloWelcome.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         setLayout(null);
 
         loginLabel = new JLabel("Login: ");
@@ -70,7 +87,7 @@ public class PanelWelcome extends JPanel implements ActionListener {
         playAsGuestButton.addActionListener(this);
         add(playAsGuestButton);
 
-        musicButton = new JButton("Play music");
+        musicButton = new JButton("Stop music");
         musicButton.setBounds(50, 250, 150, 35);
         musicButton.addActionListener(this);
         add(musicButton);
@@ -96,7 +113,7 @@ public class PanelWelcome extends JPanel implements ActionListener {
         }
 
         if(e.getSource()== musicButton){
-            muzyka.playSound();
+            muzyka.stopSound();
 
         }
 

@@ -3,7 +3,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class PanelRegister extends JPanel implements ActionListener {
@@ -18,9 +22,14 @@ public class PanelRegister extends JPanel implements ActionListener {
     private final JRadioButton showPasswordButton;
 
     private final JButton registerButton, backButton;
-
+    BufferedImage tloWelcome;
 
     public PanelRegister() {
+        try {
+            tloWelcome = ImageIO.read(new File("tloWelcome.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         setLayout(null);
 
@@ -123,6 +132,12 @@ public class PanelRegister extends JPanel implements ActionListener {
         backButton.addActionListener(this);
         add(backButton);
 
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(tloWelcome, 0, 0, getWidth(), getHeight(), null);
     }
 
     @Override

@@ -1,4 +1,4 @@
-import java.awt.HeadlessException;
+import java.awt.*;
 
 import javax.swing.JFrame;
 
@@ -8,7 +8,6 @@ public class FrameWelcome extends JFrame{
 
     public FrameWelcome(PanelWelcome panel) {
         this.panel = panel;
-
 
         setVisible(true);
         setTitle("Login Window");

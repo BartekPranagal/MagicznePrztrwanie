@@ -58,6 +58,7 @@ public class PanelGame extends JPanel {
     public PanelGame() {
         game = new Game();
 
+
         try {
             tlo = ImageIO.read(new File("tlo.jpg"));
         } catch (IOException e) {
