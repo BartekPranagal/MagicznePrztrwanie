@@ -16,9 +16,6 @@ public class PanelGame extends JPanel {
     BufferedImage tlo;
 
 
-
-
-
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(width, height);
@@ -48,6 +45,7 @@ public class PanelGame extends JPanel {
 
     public PanelGame() {
         game = new Game();
+
         try {
             tlo = ImageIO.read(new File("tlo.jpg"));
         } catch (IOException e) {
@@ -62,29 +60,28 @@ public class PanelGame extends JPanel {
         g.drawImage(game.bohater.getHeroImage(), x, y, game.bohater.getWidth(), game.bohater.getHeight(), null);
     }
 
-public void colission(){
-    if (game.enemy.getY() + game.enemy.getHeight() >= game.bohater.getY() && ((game.enemy.getX() + game.enemy.getWidth() >= game.bohater.getX() && // tutaj dodałem od Ciebie z asteroid kolizje
-            game.enemy.getX() + game.enemy.getWidth() <= game.bohater.getX() + game.bohater.getX()) ||
-            (game.enemy.getX() <= game.bohater.getX() + game.bohater.getX() && game.enemy.getX() + game.enemy.getWidth() >= game.bohater.getX()))) {
+    public void colission() { //
+        if (game.enemy.getY() + game.enemy.getHeight() >= game.bohater.getY() &&
+                ((game.enemy.getX() + game.enemy.getWidth() >= game.bohater.getX() &&// tutaj dodałem od Ciebie z asteroid kolizje
+                        game.enemy.getX() + game.enemy.getWidth() <= game.bohater.getX() + game.bohater.getX()) ||
+                        (game.enemy.getX() <= game.bohater.getX() + game.bohater.getX() && game.enemy.getX() + game.enemy.getWidth() >= game.bohater.getX()))) {
 
-        JOptionPane.showMessageDialog(this, "Koniec Gry");
-        System.exit(0);
+            JOptionPane.showMessageDialog(this, "Koniec Gry");
+            System.exit(0);
+        }
+        repaint();
+
     }
-    System.out.println(game.bohater.setCurrentHp(game.bohater.getCurrentHp()- EnemyType.FAT.getBaseDmg()));
-    repaint();
-
-}
 
 
     public synchronized void animation() { // metoda odpowiedzialna za animacje na ekrnaie,ruch wrogów
 
 
-
         while (true) {
 
             for (Enemy e : game.enemies) {
-                Point heroP = new Point(game.bohater.getX()+ game.bohater.getWidth()/2, game.bohater.getY()+ game.bohater.getHeight()/2);
-                Point enemyP = new Point(e.getX()+e.getWidth()/2, e.getY()+ e.getHeight()/2);
+                Point heroP = new Point(game.bohater.getX() + game.bohater.getWidth() / 2, game.bohater.getY() + game.bohater.getHeight() / 2);
+                Point enemyP = new Point(e.getX() + e.getWidth() / 2, e.getY() + e.getHeight() / 2);
                 if (!enemyP.equals(heroP)) {
 
                     Point movementVector = new Point(1, 1);
@@ -94,20 +91,79 @@ public void colission(){
                     if (enemyP.y < heroP.y) e.setY(e.getY() + e.getSpeed());
 
                     try {
-                        Thread.sleep(5);
+                        Thread.sleep(10);
                     } catch (Exception exception) {
                         exception.printStackTrace();
                     }
                 }
+                if (game.bohater.getBounds().intersects(e.getBounds())) {
+
+                    attack(e);
+                }
+
                 repaint();
-
-                colission();
-
 
 
             }
+            spawnEnemy();
+            System.out.println(game.bohater.getCurrentHp());
+            System.out.println(game.getNumberOfEnemies());
+            System.out.println(game.enemies.size());
+
         }
 
+
+    }
+
+    public synchronized void attack(Enemy e) {
+        try {
+            Thread attack = new Thread("attack");
+            attack.start();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        game.bohater.setCurrentHp(game.bohater.getCurrentHp() - e.getBaseDmg());
+
+    }
+
+    public synchronized void spawnEnemy() {// nie działa tak jakbym chciał
+
+
+        try {
+            Thread spawn = new Thread("spawn");
+
+
+
+            spawn.join(10000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        game.setNumberOfEnemies(game.getNumberOfEnemies() + 1);
+
+        for (int i = 0; i < game.getNumberOfEnemies() - game.enemies.size(); i++) {
+
+            Enemy temp = game.addRandomEnemy();
+            Point p = new Point(getinitialPoints(temp)[(int) (Math.random()*getinitialPoints(temp).length)]);
+            temp.setX(p.x);
+            temp.setY(p.y);
+            game.enemies.add(temp);
+
+
+        }
+
+
+    }
+
+    public Point[] getinitialPoints(Enemy e) {
+
+        Point[] points = {
+                new Point(0, (int) (Math.random() * (getHeight() - e.getHeight()))),
+                new Point(getWidth() - e.getWidth(), ((int) (Math.random() * (getHeight() - e.getHeight())))),
+                new Point((int) (Math.random() * (getWidth() - e.getWidth())), 0),
+                new Point((int) (Math.random() * (getWidth() - e.getWidth())), (getHeight() - e.getHeight()))
+        };
+
+        return points;
 
     }
 
