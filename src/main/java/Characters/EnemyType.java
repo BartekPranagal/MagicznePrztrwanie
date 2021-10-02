@@ -11,7 +11,7 @@ public enum EnemyType {//przykładowi wrogowie w enum
     private String name;
     private int width,height,maxHp,baseDmg,speed,armor,expValue;
 
-    private EnemyType(String name,int width, int height, int maxHp, int baseDmg, int speed, int armor,int expValue) {
+     private EnemyType(String name,int width, int height, int maxHp, int baseDmg, int speed, int armor,int expValue) {
         this.name = name;
         this.width = width;
         this.height = height;

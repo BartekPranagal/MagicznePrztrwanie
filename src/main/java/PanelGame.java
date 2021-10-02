@@ -23,6 +23,7 @@ public class PanelGame extends JPanel {
 
     @Override
     public void paint(Graphics g) {
+
         super.paint(g);
         g.drawImage(tlo, 0, 0, getWidth(), getHeight(), null);
 
@@ -33,10 +34,9 @@ public class PanelGame extends JPanel {
         g.fillRect(5, 5, 200, 50);
 
         g.setColor(Color.green); // pasek zdrowia obecnego
-        g.fillRect(5, 5, 200, 50);
+        g.fillRect(5, 5, game.bohater.getCurrentHp(), 50);
 
         paintHero(g, game.bohater.getX(), game.bohater.getY());
-
 
         for (Enemy e : game.enemies) {
             e.drawEnemy(g, e.getEnemyType(), e.getX(), e.getY());
@@ -60,35 +60,26 @@ public class PanelGame extends JPanel {
         g.drawImage(game.bohater.getHeroImage(), x, y, game.bohater.getWidth(), game.bohater.getHeight(), null);
     }
 
-    public void colission() { //
-        if (game.enemy.getY() + game.enemy.getHeight() >= game.bohater.getY() &&
-                ((game.enemy.getX() + game.enemy.getWidth() >= game.bohater.getX() &&// tutaj dodałem od Ciebie z asteroid kolizje
-                        game.enemy.getX() + game.enemy.getWidth() <= game.bohater.getX() + game.bohater.getX()) ||
-                        (game.enemy.getX() <= game.bohater.getX() + game.bohater.getX() && game.enemy.getX() + game.enemy.getWidth() >= game.bohater.getX()))) {
-
-            JOptionPane.showMessageDialog(this, "Koniec Gry");
-            System.exit(0);
-        }
-        repaint();
-
-    }
-
-
     public synchronized void animation() { // metoda odpowiedzialna za animacje na ekrnaie,ruch wrogów
 
 
         while (true) {
 
-            for (Enemy e : game.enemies) {
+            for (Enemy e : game.enemies) { // poruszanie się wrogów
+
                 Point heroP = new Point(game.bohater.getX() + game.bohater.getWidth() / 2, game.bohater.getY() + game.bohater.getHeight() / 2);
                 Point enemyP = new Point(e.getX() + e.getWidth() / 2, e.getY() + e.getHeight() / 2);
+
                 if (!enemyP.equals(heroP)) {
 
-                    Point movementVector = new Point(1, 1);
-                    if (enemyP.x > heroP.x) e.setX(e.getX() - e.getSpeed());
-                    if (enemyP.x < heroP.x) e.setX(e.getX() + e.getSpeed());
-                    if (enemyP.y > heroP.y) e.setY(e.getY() - e.getSpeed());
-                    if (enemyP.y < heroP.y) e.setY(e.getY() + e.getSpeed());
+                    if (enemyP.x > heroP.x)
+                        e.setX(e.getX() - e.getSpeed());
+                    if (enemyP.x < heroP.x)
+                        e.setX(e.getX() + e.getSpeed());
+                    if (enemyP.y > heroP.y)
+                        e.setY(e.getY() - e.getSpeed());
+                    if (enemyP.y < heroP.y)
+                        e.setY(e.getY() + e.getSpeed());
 
                     try {
                         Thread.sleep(10);
@@ -96,19 +87,24 @@ public class PanelGame extends JPanel {
                         exception.printStackTrace();
                     }
                 }
+
                 if (game.bohater.getBounds().intersects(e.getBounds())) {
 
                     attack(e);
                 }
-
+                if (game.bohater.getCurrentHp() <=0 ) {
+                    JOptionPane.showMessageDialog(this, "Przegrałeś");
+                    System.exit(0);
+                }
                 repaint();
 
 
             }
             spawnEnemy();
-            System.out.println(game.bohater.getCurrentHp());
-            System.out.println(game.getNumberOfEnemies());
-            System.out.println(game.enemies.size());
+//            System.out.println(game.bohater.findClosestEnemy(game.enemies.));
+//            System.out.println(game.bohater.getCurrentHp());
+//            System.out.println(game.getNumberOfEnemies());
+//            System.out.println(game.enemies.size());
 
         }
 
@@ -131,9 +127,6 @@ public class PanelGame extends JPanel {
 
         try {
             Thread spawn = new Thread("spawn");
-
-
-
             spawn.join(10000);
         } catch (Exception e) {
             e.printStackTrace();
