@@ -1,5 +1,7 @@
 package Characters;
 
+import java.awt.*;
+
 public abstract class Character { //klasa abstrakcyjna zawierająca podstawowe pola dla pozostałych
 
     private int x,y;
@@ -71,9 +73,8 @@ public abstract class Character { //klasa abstrakcyjna zawierająca podstawowe p
         return currentHp;
     }
 
-    public int setCurrentHp(int currentHp) {
+    public void setCurrentHp(int currentHp) {
         this.currentHp = currentHp;
-        return currentHp;
     }
 
     public int getBaseDmg() {
@@ -99,6 +100,15 @@ public abstract class Character { //klasa abstrakcyjna zawierająca podstawowe p
     public void setArmor(int armor) {
         this.armor = armor;
     }
+
+    public Rectangle getBounds() {
+        return  new Rectangle(x,y,width,height);
+    }
+
+    public Point getPosition() {
+        return new Point(getX()+getWidth()/2,getY()+getHeight()/2);
+    }
+
 
 
 
