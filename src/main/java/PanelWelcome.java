@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -12,9 +14,9 @@ public class PanelWelcome extends JPanel implements ActionListener {
     private final JLabel loginLabel, passwordLabel;
     private final JTextField loginField;
     private final JPasswordField passwordField;
-    private final JButton loginButton, registerButton, playAsGuestButton;
+    private final JButton loginButton, registerButton, playAsGuestButton, musicButton;
     private final JRadioButton showPasswordButton;
-
+Music muzyka = new Music();
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(width, height);
@@ -68,6 +70,10 @@ public class PanelWelcome extends JPanel implements ActionListener {
         playAsGuestButton.addActionListener(this);
         add(playAsGuestButton);
 
+        musicButton = new JButton("Play music");
+        musicButton.setBounds(50, 250, 150, 35);
+        musicButton.addActionListener(this);
+        add(musicButton);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -88,6 +94,15 @@ public class PanelWelcome extends JPanel implements ActionListener {
 
 
         }
+
+        if(e.getSource()== musicButton){
+
+            muzyka.playSound();
+        }
+
+
+
+
         if (showPasswordButton.isSelected() == true) {
             passwordField.setEchoChar((char) 0);
 
