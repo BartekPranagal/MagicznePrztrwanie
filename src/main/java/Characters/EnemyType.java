@@ -5,7 +5,8 @@ public enum EnemyType {//przykładowi wrogowie w enum
     SPEEDY("Fast",30,30,50,6,3,0,15),
     FAT("Fat",80,80,200,15,1,0,30),
     KABOOM("Kaboom",40,40,75,25,2,0,25),
-    DIVIDER("Divider",100,100,250,20,1,0,50);
+    DIVIDER("Divider",100,100,250,20,1,0,50),
+    SMALL("Small",20,20,60,3,2,0,15);
 
     private String name;
     private int width,height,maxHp,baseDmg,speed,armor,expValue;
