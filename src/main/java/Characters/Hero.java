@@ -3,9 +3,11 @@ package Characters;
 import Skills.*;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Hero extends Character{ // klasa bohater
@@ -13,14 +15,14 @@ public class Hero extends Character{ // klasa bohater
     //private int level;
 
     private int currentExp;
-
     private Level level;
-
     private BufferedImage heroImage;
 
-    private Map<String, Skill> magicBook = new HashMap<String, Skill>();
-
     private int movementSpeed;
+    private Map<String, Skill> magicBook = new HashMap<String, Skill>();
+    private Map<Skill, List<Skill>> attacks = new HashMap<Skill, List<Skill>>();
+
+
 
     public int getMovementSpeed() {
         return movementSpeed;
@@ -69,4 +71,29 @@ public class Hero extends Character{ // klasa bohater
             e.printStackTrace();
         }
     }
+
+    public void attack() { // atakowanie wrogów
+
+    }
+
+    public Enemy findClosestEnemy(List<Enemy> enemies) { // szuka najbliższego wroga
+
+        double shortestDistance = 1000000000;
+        Enemy closestEnemy = null;
+
+        for (Enemy e : enemies) {
+            double currentDistance = (getPosition().distance(e.getPosition()));
+                if (currentDistance < shortestDistance){
+                    shortestDistance = currentDistance;
+                    closestEnemy = e;
+                }
+
+        }
+        return closestEnemy;
+
+
+
+    }
+
+
 }
