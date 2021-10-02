@@ -2,12 +2,12 @@ import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
 
-public class FrameGame extends JFrame implements MouseMotionListener {
+public class FrameGame extends JFrame implements MouseMotionListener, KeyListener {
 
     int mouseX, mouseY;
 
     PanelGame pg;
-
+    Music music = new Music();
     public FrameGame(PanelGame pg) {
         this.pg = pg;
         setVisible(true);
@@ -16,6 +16,7 @@ public class FrameGame extends JFrame implements MouseMotionListener {
         setDefaultCloseOperation(3);
         setLocationRelativeTo(null);
         addMouseMotionListener(this);
+        addKeyListener(this);
         add(pg);
         pack();
 
@@ -62,4 +63,21 @@ public class FrameGame extends JFrame implements MouseMotionListener {
     }
 
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+    boolean isPlayed = false;
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_M){
+
+            music.playSound();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
 }

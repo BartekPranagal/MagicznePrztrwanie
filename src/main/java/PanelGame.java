@@ -14,7 +14,7 @@ public class PanelGame extends JPanel {
     EnemyType enemyType;
     private final int width = 1000, height = 800;
     BufferedImage tlo;
-
+    Music music = new Music();
 
     @Override
     public Dimension getPreferredSize() {
@@ -23,6 +23,7 @@ public class PanelGame extends JPanel {
 
     @Override
     public void paint(Graphics g) {
+
 
         super.paint(g);
         g.drawImage(tlo, 0, 0, getWidth(), getHeight(), null);
@@ -73,7 +74,6 @@ public class PanelGame extends JPanel {
 
     public synchronized void animation() { // metoda odpowiedzialna za animacje na ekrnaie,ruch wrogów
 
-
         while (true) {
 
             for (Enemy e : game.enemies) { // poruszanie się wrogów
@@ -103,10 +103,7 @@ public class PanelGame extends JPanel {
 
                     attack(e);
                 }
-                if (game.bohater.getCurrentHp() <=0 ) {
-                    JOptionPane.showMessageDialog(this, "Przegrałeś");
-                    System.exit(0);
-                }
+
                 repaint();
 
 
@@ -116,7 +113,12 @@ public class PanelGame extends JPanel {
 //            System.out.println(game.bohater.getCurrentHp());
 //            System.out.println(game.getNumberOfEnemies());
 //            System.out.println(game.enemies.size());
-
+            if (game.bohater.getCurrentHp() <=0 ) {
+                Window win = SwingUtilities.getWindowAncestor(this);
+                win.dispose();
+                FrameScores scoresGame = new FrameScores(new PanelScores());
+                break;
+            }
         }
 
 
@@ -130,6 +132,7 @@ public class PanelGame extends JPanel {
             e1.printStackTrace();
         }
         game.bohater.setCurrentHp(game.bohater.getCurrentHp() - e.getBaseDmg());
+
 
     }
 
@@ -170,5 +173,8 @@ public class PanelGame extends JPanel {
         return points;
 
     }
+
+
+
 
 }

@@ -16,7 +16,7 @@ public class PanelWelcome extends JPanel implements ActionListener {
     private final JPasswordField passwordField;
     private final JButton loginButton, registerButton, playAsGuestButton, musicButton;
     private final JRadioButton showPasswordButton;
-Music muzyka = new Music();
+    Music muzyka = new Music();
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(width, height);
@@ -96,8 +96,8 @@ Music muzyka = new Music();
         }
 
         if(e.getSource()== musicButton){
-
             muzyka.playSound();
+
         }
 
 

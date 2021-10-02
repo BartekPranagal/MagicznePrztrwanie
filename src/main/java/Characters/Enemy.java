@@ -1,11 +1,14 @@
 package Characters;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class Enemy extends Character { // klasa wróg, nie wiem czy lepsze rozwiązanie to wypisanie wrogów,
     // czy użycie Enum
     private EnemyType enemyType;
-
+    private BufferedImage enemyImage;
     public Enemy(EnemyType enemyType) {
 
         setWidth(enemyType.getWidth());
@@ -33,8 +36,12 @@ public class Enemy extends Character { // klasa wróg, nie wiem czy lepsze rozwi
 
     public void drawEnemy(Graphics g, EnemyType eT, int x, int y) {
         if (eT == EnemyType.FAT) {
-            g.setColor(Color.BLACK);
-            g.fillOval(x, y, EnemyType.FAT.getWidth(), EnemyType.FAT.getHeight());
+            try {
+                enemyImage = ImageIO.read(new File("fat.png"));
+            }catch(Exception e ) {
+                e.printStackTrace();
+            }
+            g.drawImage(enemyImage, x, y, EnemyType.FAT.getWidth(), EnemyType.FAT.getHeight(), null);
         }
         if (eT == EnemyType.NORMAL) {
             g.setColor(Color.BLUE);
