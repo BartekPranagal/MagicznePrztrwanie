@@ -27,20 +27,31 @@ public class PanelGame extends JPanel {
         super.paint(g);
         g.drawImage(tlo, 0, 0, getWidth(), getHeight(), null);
 
-        g.setColor(Color.gray);// pasek zdrowia po prostu jako miejsce na zdrowie, nie ma tutaj max ani min hp
-        g.fillRect(5, 5, 200, 50);
-
-        g.setColor(Color.white); // jak stracimy zycie to powoli odsłania się biały pasek
-        g.fillRect(5, 5, 200, 50);
-
-        g.setColor(Color.green); // pasek zdrowia obecnego
-        g.fillRect(5, 5, game.bohater.getCurrentHp(), 50);
-
-        paintHero(g, game.bohater.getX(), game.bohater.getY());
-
         for (Enemy e : game.enemies) {
             e.drawEnemy(g, e.getEnemyType(), e.getX(), e.getY());
         }
+
+        g.setColor(Color.BLUE);
+        g.drawString("HP:", 5, 20);
+        g.setColor(Color.BLUE);
+        g.drawString("EXP:",5 , 55);
+
+        g.setColor(Color.white); // jak stracimy zycie to powoli odsłania się biały pasek
+        g.fillRect(35, 5, 200, 25);
+        g.setColor(Color.green); // pasek zdrowia obecnego
+        g.fillRect(35, 5, game.bohater.getCurrentHp(), 25);
+
+
+        g.setColor(Color.magenta); // // pasek expa pustego
+        g.fillRect(35, 35, 200, 25);
+        g.setColor(Color.YELLOW); // // pasek expa
+        g.fillRect(35, 35, game.bohater.getCurrentExp(), 25);
+
+
+
+        paintHero(g, game.bohater.getX(), game.bohater.getY());
+
+
     }
 
     public PanelGame() {
