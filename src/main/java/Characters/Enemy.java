@@ -7,8 +7,7 @@ public class Enemy extends Character { // klasa wróg, nie wiem czy lepsze rozwi
     private EnemyType enemyType;
 
     public Enemy(EnemyType enemyType) {
-        setX((int) (Math.random() * 1000));
-        setY(0);
+
         setWidth(enemyType.getWidth());
         setHeight(enemyType.getHeight());
         setArmor(enemyType.getArmor());
@@ -17,6 +16,11 @@ public class Enemy extends Character { // klasa wróg, nie wiem czy lepsze rozwi
         setSpeed(enemyType.getSpeed());
         this.enemyType = enemyType;
 
+    }
+    public Enemy(EnemyType enemyType,int x, int y) {
+        super();
+        setX(x);
+        setY(y);
     }
 
     public Enemy() {
@@ -49,6 +53,10 @@ public class Enemy extends Character { // klasa wróg, nie wiem czy lepsze rozwi
             g.setColor(Color.pink);
             g.fillOval(x, y, EnemyType.SPEEDY.getWidth(), EnemyType.SPEEDY.getHeight());
 
+        }
+        if(eT == EnemyType.SMALL) {
+            g.setColor(Color.GREEN);
+            g.fillRect(x,y,EnemyType.SMALL.getWidth(),EnemyType.SMALL.getHeight());
         }
 
 
