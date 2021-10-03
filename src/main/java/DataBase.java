@@ -6,6 +6,11 @@ import java.util.Map;
 
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaQuery;
 
 public class DataBase {
     private static DataBase playerDataBase;
@@ -13,6 +18,7 @@ public class DataBase {
     private List<Player> players = new ArrayList<Player>();
     private Map<String, Integer> scoreBoard = new HashMap<>();
     private SessionFactory session = new Configuration().configure().buildSessionFactory();
+    Player activePlayer;
     private DataBase() {
         sampleDataBase();
 
@@ -118,6 +124,46 @@ public class DataBase {
             e.printStackTrace();
         }
     }
+    public Player loginAllowed(String login, String password) {
+        boolean isAllowed = false;
+        try {
+            Session s = session.openSession();
+            s.beginTransaction();
+            Criteria cr = null;
+            cr = s.createCriteria(Player.class);
+            cr.add(Restrictions.eq("login",login));
+            cr.add(Restrictions.eq("password",password));
+
+            Object o= cr.setProjection(Projections.rowCount()).uniqueResult();
+            activePlayer = (Player)o;
+            System.out.println(activePlayer.toString());
+//            Query<Player> query = s.createQuery("FROM Player WHERE login = " + login + " , password = " + password);
+//            activePlayer = query.getSingleResult();
+            if(!activePlayer.equals(null)){
+                isAllowed = true;
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return activePlayer;
+
+    }
+
+    public Player findPlayer(String login, String password) {
+        Player temp;
+        Session s = session.openSession();
+        Transaction tx = s.beginTransaction();
+        Query query = s.createQuery("from Player where login=:login and password=:password");
+        query.setParameter("login",login);
+        query.setParameter("password", password);
+
+        temp = (Player) query.uniqueResult();
+        return temp;
+
+    }
+
 }
 
 

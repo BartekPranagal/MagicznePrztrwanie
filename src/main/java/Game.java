@@ -59,11 +59,7 @@ public class Game {
         return new Enemy(EnemyType.values()[(int)(Math.random()*EnemyType.values().length)]);
     }
     public  Skill addFireBolt() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException interruptedException) {
-            interruptedException.printStackTrace();
-        }
+
         return new FireBolt(bohater.getPosition().x,bohater.getPosition().y);
     }
 
