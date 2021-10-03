@@ -39,7 +39,7 @@ public class PanelScores extends JPanel implements ActionListener {
         setLayout(null);
 
 
-        scoreLabel = new JLabel("Your score:" + String.valueOf(game.countSystem())); // wywala wynik 0.
+        scoreLabel = new JLabel("Your score:" + String.valueOf(game.score)); // wywala wynik 0.
         scoreLabel.setBounds(20, 20, 100, 30);
         add(scoreLabel);
 
@@ -59,8 +59,7 @@ public class PanelScores extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(tloWelcome, 0, 0, getWidth(), getHeight(), null);
-        g.setColor(Color.BLACK);
-        g.drawString(String.valueOf("mw"), 30, 20);
+
     }
 
     @Override

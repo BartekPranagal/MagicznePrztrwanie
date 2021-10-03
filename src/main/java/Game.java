@@ -9,8 +9,9 @@ import java.util.List;
 
 public class Game {
 
+    public int score;
     private int sec = 0;
-    private int  score =0;
+
     Hero bohater;
     List<Enemy> enemies = new ArrayList<Enemy>();
     List<Enemy> enemiesToRemove = new ArrayList<Enemy>();
@@ -101,8 +102,7 @@ public class Game {
     public int countSystem(){
         int timeScore;
         timeScore =  getSec() * 2;
-        score = bohater.getCurrentExp() * 3 + timeScore;
-
+         score = bohater.getCurrentExp() * 3 + timeScore;
 
         return score;
     }
