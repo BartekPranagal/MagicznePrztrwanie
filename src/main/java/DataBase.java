@@ -152,7 +152,7 @@ public class DataBase {
     }
 
     public Player findPlayer(String login, String password) {
-        Player temp;
+        Player temp = null;
         Session s = session.openSession();
         Transaction tx = s.beginTransaction();
         Query query = s.createQuery("from Player where login=:login and password=:password");
@@ -160,6 +160,7 @@ public class DataBase {
         query.setParameter("password", password);
 
         temp = (Player) query.uniqueResult();
+        activePlayer = temp;
         return temp;
 
     }

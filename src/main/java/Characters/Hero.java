@@ -22,6 +22,7 @@ public class Hero extends Character{ // klasa bohater
     }
 
     private int currentExp;
+    private int requiredExp;
     private Level level;
     private BufferedImage heroImage;
 
@@ -32,6 +33,22 @@ public class Hero extends Character{ // klasa bohater
     private double attackRange = 300;
 
     Enemy closestEnemy;
+
+    public int getCurrevtLevel() {
+        return currevtLevel;
+    }
+
+    public void setCurrevtLevel(int currevtLevel) {
+        this.currevtLevel = currevtLevel;
+    }
+
+    public int getRequiredExp() {
+        return requiredExp;
+    }
+
+    public void setRequiredExp(int requiredExp) {
+        this.requiredExp = requiredExp;
+    }
 
     public boolean isAlive() {
         return isAlive;

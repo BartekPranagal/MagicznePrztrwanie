@@ -97,13 +97,13 @@ public class PanelWelcome extends JPanel implements ActionListener {
             DataBase.getPlayerDataBase().loadScoreBoard();
 
             Player p = DataBase.getPlayerDataBase().findPlayer(loginField.getText(),passwordField.getText());
-
+            System.out.println(DataBase.getPlayerDataBase().activePlayer.getLogin());
 
 
             if(loginVeryfication(loginField.getText(),p.getLogin()) && passwordVeryfication(passwordField.getText(),p.getPassword())){
                 Window win = SwingUtilities.getWindowAncestor(this);
                 win.dispose();
-                FrameGame frameGame = new FrameGame(new PanelGame());
+                FrameGame frameGame = new FrameGame(new PanelGame(DataBase.getPlayerDataBase().activePlayer));
 
                 }else {
                     JOptionPane.showMessageDialog(this, "Upppsss, coś posżło nie tak, spróbuj jeszcze raz");
@@ -125,7 +125,7 @@ public class PanelWelcome extends JPanel implements ActionListener {
 
             Window win = SwingUtilities.getWindowAncestor(this);
             win.dispose();
-            FrameGame frameGame = new FrameGame(new PanelGame());
+            FrameGame frameGame = new FrameGame(new PanelGame(DataBase.getPlayerDataBase().activePlayer));
 
         }
 
@@ -147,7 +147,7 @@ public class PanelWelcome extends JPanel implements ActionListener {
         if (loginGiven.equals(loginRequired)) {
             isCorrect = true;
         } else {
-            JOptionPane.showMessageDialog(this, "NIeprawidłowy login");
+            JOptionPane.showMessageDialog(this, "Nieprawidłowy login");
         }
         return isCorrect;
 

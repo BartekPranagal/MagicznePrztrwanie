@@ -17,13 +17,18 @@ import java.util.TimerTask;
 public class PanelGame extends JPanel {
 
     Game game;
-
+    PanelScores ps = new PanelScores();
     private final int width = 1000, height = 800;
     private BufferedImage tlo;
     Music music = new Music();
     Timer timer = new Timer();
 
     TimerTask timeCounter;
+    int maxWidth = 200;
+    int currentXP;
+    int xpNeeded;
+    float percentageOfXP = currentXP / (float) xpNeeded;
+    int barWidth = (int) (percentageOfXP * maxWidth);
 
 
     @Override
@@ -62,24 +67,25 @@ public class PanelGame extends JPanel {
         g.fillRect(35, 5, game.bohater.getCurrentHp(), 25);
 
         g.setColor(Color.BLUE);
-        g.drawString("EXP:",5 , 55);
-        g.setColor(Color.magenta); // // pasek expa pustego
-        g.fillRect(35, 35, 200, 25);
-        g.setColor(Color.YELLOW); // // pasek expa
-        g.fillRect(35, 35, game.bohater.getCurrentExp(), 25);
-        g.setColor(Color.BLACK);
-        g.drawString(String.valueOf(game.bohater.getLevel()), 125, 55);
+        g.setFont(new Font("Arial",1,16));
+        g.drawString("EXP:   " + String.valueOf(game.bohater.getCurrentExp()),5 , 55);
+//        g.setColor(Color.magenta); // // pasek expa pustego
+//        g.fillRect(35, 35, barWidth, 25);
+//        g.setColor(Color.YELLOW); // // pasek expa
+//        g.fillRect(35, 35, currentXP, 25);
+
+
+
         g.setColor(Color.BLACK); // dodanie ze pokazuje jak sie nabijaja punkty.
-        g.drawString(String.valueOf(game.countSystem()),100,100);
+        g.setFont(new Font("Arial",3,20));
+        g.drawString("Score: "+String.valueOf(game.countSystem()),5,100);
+
 
     }
 
-
-
-    public PanelGame() {
-
-       // music.playSound();
+    public PanelGame(Player p) {
         game = new Game();
+        music.playSound();
 
         timeCounter = new TimerTask() {
             @Override
@@ -102,8 +108,6 @@ public class PanelGame extends JPanel {
                 ioException.printStackTrace();
             }
         }
-
-
 
         new Thread(() -> animation()).start();
     }
@@ -146,10 +150,6 @@ public class PanelGame extends JPanel {
 
             }
             repaint();
-//            System.out.println(game.bohater.findClosestEnemy(game.enemies).getEnemyType().getName());
-
-
-
 
             for (Skill s : game.getSkills()) {
                 if(!s.isDirectionSet()) {
@@ -183,7 +183,6 @@ public class PanelGame extends JPanel {
                         exception.printStackTrace();
                     }
 
-
             }
 
             repaint();
@@ -194,7 +193,6 @@ public class PanelGame extends JPanel {
                     if(s.getBounds().intersects(e.getBounds())) {
                         game.skillsToRemove.add(s);
                         e.setCurrentHp(e.getCurrentHp() - s.getDmg());
-                        System.out.println(e.getCurrentHp());
                         game.skillsRemoval();
 
                     }
@@ -214,14 +212,8 @@ public class PanelGame extends JPanel {
             if (game.bohater.getCurrentHp() <= 0) {
                 Window win = SwingUtilities.getWindowAncestor(this);
                 win.dispose();
-                FrameScores scoresGame = new FrameScores(new PanelScores());
+                FrameScores scoresGame = new FrameScores(new PanelScores(game.getScore(),DataBase.getPlayerDataBase().activePlayer));
                 break;
-            }
-
-            if(game.bohater.getCurrentExp()>=game.bohater.getLevel().getExpRequired(game.bohater.getCurrentLevel())){
-                game.bohater.setCurrentLevel(+1);
-                System.out.println(game.bohater.getCurrentLevel());
-
             }
 
 
@@ -236,16 +228,9 @@ public class PanelGame extends JPanel {
 
         game.bohater.setCurrentHp(game.bohater.getCurrentHp() - e.getBaseDmg());
         e.setCurrentHp(e.getCurrentHp() - game.bohater.getBaseDmg());
-        System.out.println(e.getCurrentHp());
 
 
     }
-
-    public void getScore(){
-        int wynik =0;
-
-    }
-
 
     public void spawnEnemy() {
 
