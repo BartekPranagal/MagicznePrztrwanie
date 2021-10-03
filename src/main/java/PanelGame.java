@@ -37,7 +37,7 @@ public class PanelGame extends JPanel {
         paintHero(g, game.bohater.getX(), game.bohater.getY());
 
         for (Enemy e : game.enemies) {
-            e.drawEnemy(g, e.getEnemyType(), e.getX(), e.getY(),e.getEnemyType().getWidth(),e.getEnemyType().getHeight());
+            e.drawEnemy(g, e.getEnemyType(), e.getX(), e.getY(),e.getWidth(),e.getHeight());
         }
 
         for ( Skill s : game.skills) {
@@ -51,13 +51,20 @@ public class PanelGame extends JPanel {
 
 
         g.setColor(Color.gray);// pasek zdrowia po prostu jako miejsce na zdrowie, nie ma tutaj max ani min hp
-        g.fillRect(5, 5, 200, 50);
+        g.fillRect(35, 5, 200, 25);
 
-        g.setColor(Color.white); // jak stracimy zycie to powoli odsłania się biały pasek
-        g.fillRect(5, 5, game.bohater.getMaxHp(), 50);
+        g.setColor(Color.red); // jak stracimy zycie to powoli odsłania się biały pasek
+        g.fillRect(35, 5, game.bohater.getMaxHp(), 25);
 
         g.setColor(Color.green); // pasek zdrowia obecnego
-        g.fillRect(5, 5, game.bohater.getCurrentHp(), 50);
+        g.fillRect(35, 5, game.bohater.getCurrentHp(), 25);
+
+        g.setColor(Color.BLUE);
+        g.drawString("EXP:",5 , 55);
+        g.setColor(Color.magenta); // // pasek expa pustego
+        g.fillRect(35, 35, 200, 25);
+        g.setColor(Color.YELLOW); // // pasek expa
+        g.fillRect(35, 35, game.bohater.getCurrentExp(), 25);
 
 
 
