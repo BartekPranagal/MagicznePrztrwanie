@@ -34,13 +34,6 @@ public class Hero extends Character{ // klasa bohater
 
     Enemy closestEnemy;
 
-    public int getCurrevtLevel() {
-        return currevtLevel;
-    }
-
-    public void setCurrevtLevel(int currevtLevel) {
-        this.currevtLevel = currevtLevel;
-    }
 
     public int getRequiredExp() {
         return requiredExp;
