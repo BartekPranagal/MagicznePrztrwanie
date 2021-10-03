@@ -18,13 +18,14 @@ public class Enemy extends Character {
         setBaseDmg(enemyType.getBaseDmg());
         setMaxHp(enemyType.getMaxHp());
         setSpeed(enemyType.getSpeed());
+        setCurrentHp(enemyType.getMaxHp());
 
         try {
             this.enemyImage = ImageIO.read(new File(enemyType.getPath()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(enemyImage == null);
+
 
 
     }
@@ -48,11 +49,9 @@ public class Enemy extends Character {
     public void drawEnemy(Graphics g,EnemyType eT, int x, int y,int width,int height) {
         if (eT == EnemyType.FAT) {
             g.drawImage(enemyImage,x,y,width,height,null);
-
         }
         if (eT == EnemyType.NORMAL) {
             g.drawImage(enemyImage,x,y,width,height,null);
-
         }
         if (eT == EnemyType.DIVIDER) {
             g.drawImage(enemyImage,x,y,width,height,null);        }

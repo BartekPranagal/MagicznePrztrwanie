@@ -24,6 +24,7 @@ public enum EnemyType {//przykładowi wrogowie w enum
         this.armor = armor;
         this.expValue = expValue;
         this.path = path;
+
     }
 
     public String getName() {

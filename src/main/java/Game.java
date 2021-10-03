@@ -75,9 +75,9 @@ public class Game {
     public void enemiesRemoval(){
 
         for (Enemy e : enemiesToRemove) {
-            for (int i = 0; i < enemies.size(); i++) {
+            for (int i = 0; i < getEnemies().size(); i++) {
 
-                if (e.equals(enemies.get(i)))
+                if (e.equals(getEnemies().get(i)))
                     enemies.remove(i);
             }
         }

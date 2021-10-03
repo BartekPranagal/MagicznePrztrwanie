@@ -143,12 +143,13 @@ public class PanelGame extends JPanel {
 
 
             for(Skill s : game.getSkills()) {
-                Point enemyP = new Point(game.bohater.findClosestEnemy(game.enemies).getX() + game.bohater.findClosestEnemy(game.enemies).getX() / 2,
-                        game.bohater.findClosestEnemy(game.enemies).getY()  + game.bohater.findClosestEnemy(game.enemies).getY()  / 2);
+                int x = game.bohater.findClosestEnemy(game.enemies).getX() + game.bohater.findClosestEnemy(game.enemies).getWidth()/2;
+                int y = game.bohater.findClosestEnemy(game.enemies).getY()+ game.bohater.findClosestEnemy(game.enemies).getHeight()/2;
+
+                Point enemyP = new Point(x,y);
                 Point skillP = new Point(s.getX() + s.getWidth() / 2, s.getY() + s.getHeight() / 2);
 
-                if (!skillP.equals(enemyP)) {
-                    System.out.println(s.getSpeed());
+//                    System.out.println(s.getSpeed());
                     if (skillP.x > enemyP.x)
                         s.setX(s.getX() - s.getSpeed());
                     if (skillP.x < enemyP.x)
@@ -164,14 +165,18 @@ public class PanelGame extends JPanel {
                         exception.printStackTrace();
                     }
 
-                }
+
+
 
             }
+
             repaint();
             if(game.getSec()%2 == 0) {
                 game.addFireBolt();
+                System.out.println("dodany FB");
             }
             repaint();
+
             if (game.bohater.getCurrentHp() <= 0) {
                 Window win = SwingUtilities.getWindowAncestor(this);
                 win.dispose();
@@ -179,14 +184,20 @@ public class PanelGame extends JPanel {
                 break;
             }
 
-//            System.out.println(game.bohater.findClosestEnemy(game.enemies.));
-//            System.out.println(game.bohater.getCurrentHp());
-//            System.out.println(game.getNumberOfEnemies());
-//            System.out.println(game.enemies.size());
+            for(Enemy e : game.getEnemies()) {
+                if(e.getCurrentHp() <=0) {
+                    game.enemiesToRemove.add(e);
+                    game.enemiesRemoval();
+                }
+            }
+
+
+
 
         }
+
         repaint();
-        game.enemiesRemoval();
+
         game.countSystem();
     }
 
@@ -201,8 +212,7 @@ public class PanelGame extends JPanel {
 
     public void spawnEnemy() {
 
-
-        if (game.getSec()%3==0)
+        if (game.getSec()%5==0)
             game.setNumberOfEnemies(game.getNumberOfEnemies() + 1);
 
         for (int i = 0; i < game.getNumberOfEnemies() - game.enemies.size(); i++) {
