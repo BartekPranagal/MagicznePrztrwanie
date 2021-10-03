@@ -13,13 +13,21 @@ import javax.swing.*;
 public class PanelWelcome extends JPanel implements ActionListener {
 
     private final int width = 300, height = 300;
-    BufferedImage tloWelcome;
+
     private final JLabel loginLabel, passwordLabel;
     private final JTextField loginField;
     private final JPasswordField passwordField;
     private final JButton loginButton, registerButton, playAsGuestButton, musicButton;
     private final JRadioButton showPasswordButton;
     Music muzyka = new Music();
+    BufferedImage tloWelcome;
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(tloWelcome,0,0,getWidth(),getHeight(),null);
+    }
+
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(width, height);
@@ -33,21 +41,12 @@ public class PanelWelcome extends JPanel implements ActionListener {
         return height;
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(tloWelcome, 0, 0, getWidth(), getHeight(), null);
-    }
-
     public PanelWelcome() {
-
-
         try {
             tloWelcome = ImageIO.read(new File("tloWelcome.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         setLayout(null);
 
         loginLabel = new JLabel("Login: ");
@@ -87,7 +86,7 @@ public class PanelWelcome extends JPanel implements ActionListener {
         playAsGuestButton.addActionListener(this);
         add(playAsGuestButton);
 
-        musicButton = new JButton("Stop music");
+        musicButton = new JButton("Play music");
         musicButton.setBounds(50, 250, 150, 35);
         musicButton.addActionListener(this);
         add(musicButton);
@@ -113,7 +112,7 @@ public class PanelWelcome extends JPanel implements ActionListener {
         }
 
         if(e.getSource()== musicButton){
-            muzyka.stopSound();
+            muzyka.playSound();
 
         }
 

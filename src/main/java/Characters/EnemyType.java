@@ -1,17 +1,20 @@
 package Characters;
 
-public enum EnemyType {//przykładowi wrogowie w enum
-    NORMAL("Normal",40,40,100,10,2,0,20),
-    SPEEDY("Fast",30,30,50,6,3,0,15),
-    FAT("Fat",80,80,200,15,1,0,30),
-    KABOOM("Kaboom",40,40,75,25,2,0,25),
-    DIVIDER("Divider",100,100,250,20,1,0,50),
-    SMALL("Small",20,20,60,3,2,0,15);
+import java.awt.image.BufferedImage;
+import java.io.File;
 
-    private String name;
+public enum EnemyType {//przykładowi wrogowie w enum
+    NORMAL("Normal",50,50,100,10,2,0,20,"NORMAL_LEFT.png"),
+    SPEEDY("Fast",40,40,50,6,3,0,15,"SPEEDY_LEFT.png"),
+    FAT("Fat",80,80,200,15,1,0,30,"FAT_LEFT.png"),
+    KABOOM("Kaboom",50,50,75,25,2,0,25,"KABOOM_LEFT.png"),
+    DIVIDER("Divider",100,100,250,20,1,0,50,"fat.png"),
+    SMALL("Small",30,30,60,3,2,0,15,"fat.png");
+
+    private String name,path;
     private int width,height,maxHp,baseDmg,speed,armor,expValue;
 
-     private EnemyType(String name,int width, int height, int maxHp, int baseDmg, int speed, int armor,int expValue) {
+     private EnemyType(String name, int width, int height, int maxHp, int baseDmg, int speed, int armor, int expValue,String path) {
         this.name = name;
         this.width = width;
         this.height = height;
@@ -20,6 +23,7 @@ public enum EnemyType {//przykładowi wrogowie w enum
         this.speed = speed;
         this.armor = armor;
         this.expValue = expValue;
+        this.path = path;
     }
 
     public String getName() {
@@ -54,4 +58,7 @@ public enum EnemyType {//przykładowi wrogowie w enum
         return expValue;
     }
 
+    public String getPath() {
+        return path;
+    }
 }

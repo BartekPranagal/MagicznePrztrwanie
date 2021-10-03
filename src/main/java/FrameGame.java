@@ -1,8 +1,10 @@
+import Skills.ElectricShock;
+
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
 
-public class FrameGame extends JFrame implements MouseMotionListener, KeyListener {
+public class  FrameGame extends JFrame implements MouseMotionListener, KeyListener {
 
     int mouseX, mouseY;
 
@@ -70,14 +72,18 @@ public class FrameGame extends JFrame implements MouseMotionListener, KeyListene
     boolean isPlayed = false;
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_M){
 
-            music.playSound();
-        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_M){
 
+            music.playSound();
+        }
+        if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+            pg.game.skills.add(new ElectricShock(pg.game.bohater.getPosition(),pg.game.bohater.findClosestEnemy(pg.game.enemies).getPosition()));
+            System.out.println(pg.game.skills.size());
+        }
     }
 }

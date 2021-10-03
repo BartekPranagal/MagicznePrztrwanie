@@ -7,7 +7,7 @@ public class Music {
 
     public void playSound() {
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("muzykatlo.wav"));
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("muzykatlo.wav").getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();

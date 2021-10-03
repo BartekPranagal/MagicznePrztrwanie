@@ -4,26 +4,37 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
-public class Enemy extends Character { // klasa wróg, nie wiem czy lepsze rozwiązanie to wypisanie wrogów,
-    // czy użycie Enum
+public class Enemy extends Character {
     private EnemyType enemyType;
     private BufferedImage enemyImage;
-    public Enemy(EnemyType enemyType) {
 
+    public Enemy(EnemyType enemyType) {
+        this.enemyType = enemyType;
         setWidth(enemyType.getWidth());
         setHeight(enemyType.getHeight());
         setArmor(enemyType.getArmor());
         setBaseDmg(enemyType.getBaseDmg());
         setMaxHp(enemyType.getMaxHp());
         setSpeed(enemyType.getSpeed());
-        this.enemyType = enemyType;
+
+        try {
+            this.enemyImage = ImageIO.read(new File(enemyType.getPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(enemyImage == null);
+
 
     }
-    public Enemy(EnemyType enemyType,int x, int y) {
-        super();
-        setX(x);
-        setY(y);
+
+    public BufferedImage getEnemyImage() {
+        return enemyImage;
+    }
+
+    public void setEnemyImage(BufferedImage enemyImage) {
+        this.enemyImage = enemyImage;
     }
 
     public Enemy() {
@@ -34,37 +45,24 @@ public class Enemy extends Character { // klasa wróg, nie wiem czy lepsze rozwi
         return enemyType;
     }
 
-    public void drawEnemy(Graphics g, EnemyType eT, int x, int y) {
+    public void drawEnemy(Graphics g,EnemyType eT, int x, int y,int width,int height) {
         if (eT == EnemyType.FAT) {
-            try {
-                enemyImage = ImageIO.read(new File("fat.png"));
-            }catch(Exception e ) {
-                e.printStackTrace();
-            }
-            g.drawImage(enemyImage, x, y, EnemyType.FAT.getWidth(), EnemyType.FAT.getHeight(), null);
+            g.drawImage(enemyImage,x,y,width,height,null);
+
         }
         if (eT == EnemyType.NORMAL) {
-            g.setColor(Color.BLUE);
-            g.fillOval(x, y, EnemyType.NORMAL.getWidth(), EnemyType.NORMAL.getHeight());
+            g.drawImage(enemyImage,x,y,width,height,null);
 
         }
         if (eT == EnemyType.DIVIDER) {
-            g.setColor(Color.CYAN);
-            g.fillOval(x, y, EnemyType.DIVIDER.getWidth(), EnemyType.DIVIDER.getHeight());
-        }
+            g.drawImage(enemyImage,x,y,width,height,null);        }
         if (eT == EnemyType.KABOOM) {
-            g.setColor(Color.RED);
-            g.fillOval(x, y, EnemyType.KABOOM.getWidth(), EnemyType.KABOOM.getHeight());
-        }
+            g.drawImage(enemyImage,x,y,width,height,null);        }
         if (eT == EnemyType.SPEEDY) {
-            g.setColor(Color.pink);
-            g.fillOval(x, y, EnemyType.SPEEDY.getWidth(), EnemyType.SPEEDY.getHeight());
-
+            g.drawImage(enemyImage,x,y,width,height,null);
         }
         if(eT == EnemyType.SMALL) {
-            g.setColor(Color.GREEN);
-            g.fillRect(x,y,EnemyType.SMALL.getWidth(),EnemyType.SMALL.getHeight());
-        }
+            g.drawImage(enemyImage,x,y,width,height,null);        }
 
 
     }

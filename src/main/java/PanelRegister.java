@@ -22,6 +22,7 @@ public class PanelRegister extends JPanel implements ActionListener {
     private final JRadioButton showPasswordButton;
 
     private final JButton registerButton, backButton;
+
     BufferedImage tloWelcome;
 
     public PanelRegister() {
@@ -30,7 +31,6 @@ public class PanelRegister extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         setLayout(null);
 
         loginLabel = new JLabel("ID: ");
@@ -135,9 +135,9 @@ public class PanelRegister extends JPanel implements ActionListener {
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(tloWelcome, 0, 0, getWidth(), getHeight(), null);
+        g.drawImage(tloWelcome,0,0,getWidth(),getHeight(),null);
     }
 
     @Override

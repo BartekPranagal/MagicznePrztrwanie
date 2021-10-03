@@ -22,6 +22,8 @@ public class Hero extends Character{ // klasa bohater
     private Map<String, Skill> magicBook = new HashMap<String, Skill>();
     private Map<Skill, List<Skill>> attacks = new HashMap<Skill, List<Skill>>();
 
+    private double attackRange = 300;
+
 
 
     public int getMovementSpeed() {
@@ -73,6 +75,7 @@ public class Hero extends Character{ // klasa bohater
     }
 
     public void attack() { // atakowanie wrogów
+
 
     }
 

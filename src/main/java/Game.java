@@ -1,4 +1,5 @@
 import Characters.*;
+import Skills.Skill;
 
 
 import java.awt.*;
@@ -8,12 +9,21 @@ import java.util.Timer;
 
 public class Game {
 
-    EnemyType enemyType;
-    Enemy enemy = new Enemy();
+    private int sec = 0;
     Hero bohater;
     List<Enemy> enemies = new ArrayList<Enemy>();
+    List<Skill> skills = new ArrayList<Skill>();
     Point cursor;
     private int numberOfEnemies = 10;
+
+
+    public int getSec() {
+        return sec;
+    }
+
+    public void setSec(int sec) {
+        this.sec = sec;
+    }
 
     public int getNumberOfEnemies() {
         return numberOfEnemies;
@@ -37,19 +47,11 @@ public class Game {
         bohater.setCurrentHp(200);
 
 
-
-
     }
 
-
-    public void initialEnemies() {
-        for(int i = 0; i <numberOfEnemies;i++ ) {
-            enemies.add(addRandomEnemy());
-        }
-
-    }
     public Enemy addRandomEnemy() {
         return new Enemy(EnemyType.values()[(int)(Math.random()*EnemyType.values().length)]);
     }
+
 
 }
