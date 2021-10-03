@@ -12,6 +12,7 @@ public class Game {
     private int sec = 0;
     Hero bohater;
     List<Enemy> enemies = new ArrayList<Enemy>();
+    List<Enemy> enemiesToRemove = new ArrayList<Enemy>();
     List<Skill> skills = new ArrayList<Skill>();
     Point cursor;
     private int numberOfEnemies = 10;
@@ -45,6 +46,7 @@ public class Game {
         bohater.setMovementSpeed(16);
         bohater.setMaxHp(200);
         bohater.setCurrentHp(200);
+        bohater.setBaseDmg(70);
 
 
     }
@@ -53,5 +55,15 @@ public class Game {
         return new Enemy(EnemyType.values()[(int)(Math.random()*EnemyType.values().length)]);
     }
 
+    public void enemiesRemoval(){
+
+        for (Enemy e : enemiesToRemove) {
+            for (int i = 0; i < enemies.size(); i++) {
+
+                if (e.equals(enemies.get(i)))
+                    enemies.remove(i);
+            }
+        }
+    }
 
 }

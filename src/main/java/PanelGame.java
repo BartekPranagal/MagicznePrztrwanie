@@ -15,7 +15,9 @@ public class PanelGame extends JPanel {
 
     Game game;
 
-    private final int width = 1000, height = 800;
+    private final int width = 1000;
+    private final int height = 800;
+    private int  score = 0;
     private BufferedImage tlo;
     Music music = new Music();
     Timer timer = new Timer();
@@ -37,18 +39,19 @@ public class PanelGame extends JPanel {
         paintHero(g, game.bohater.getX(), game.bohater.getY());
 
         for (Enemy e : game.enemies) {
-            e.drawEnemy(g, e.getEnemyType(), e.getX(), e.getY(),e.getWidth(),e.getHeight());
+            e.drawEnemy(g, e.getEnemyType(), e.getX(), e.getY(), e.getWidth(), e.getHeight());
         }
 
-        for ( Skill s : game.skills) {
+        for (Skill s : game.skills) {
 //            Graphics2D g2d = (Graphics2D) g;
 //            AffineTransform old = g2d.getTransform();
 //            g2d.setTransform(AffineTransform.getRotateInstance(Math.toDegrees(Math.atan2(game.bohater.findClosestEnemy(game.enemies).getPosition().x-game.bohater.getPosition().x,game.bohater.findClosestEnemy(game.enemies).getPosition().y-game.bohater.getPosition().y))));
 //            g2d.drawImage(s.getSkillImage(),game.bohater.getPosition().x,game.bohater.getPosition().y,s.getWidth(),s.getHeight(),null);
 //            g2d.setTransform(old);
-            s.drawSkill(g,game.bohater.findClosestEnemy(game.enemies).getPosition().x - game.bohater.getPosition().x,game.bohater.findClosestEnemy(game.enemies).getPosition().y - game.bohater.getPosition().y,s.getWidth(),s.getHeight());
+            s.drawSkill(g, game.bohater.findClosestEnemy(game.enemies).getPosition().x - game.bohater.getPosition().x, game.bohater.findClosestEnemy(game.enemies).getPosition().y - game.bohater.getPosition().y, s.getWidth(), s.getHeight());
         }
-
+        g.setColor(Color.BLUE);
+        g.drawString("HP:", 5, 25);
 
         g.setColor(Color.gray);// pasek zdrowia po prostu jako miejsce na zdrowie, nie ma tutaj max ani min hp
         g.fillRect(35, 5, 200, 25);
@@ -60,13 +63,12 @@ public class PanelGame extends JPanel {
         g.fillRect(35, 5, game.bohater.getCurrentHp(), 25);
 
         g.setColor(Color.BLUE);
-        g.drawString("EXP:",5 , 55);
+
+        g.drawString("EXP:", 5, 55);
         g.setColor(Color.magenta); // // pasek expa pustego
         g.fillRect(35, 35, 200, 25);
         g.setColor(Color.YELLOW); // // pasek expa
         g.fillRect(35, 35, game.bohater.getCurrentExp(), 25);
-
-
 
 
     }
@@ -134,22 +136,22 @@ public class PanelGame extends JPanel {
                     }
                 }
 
-                if (game.bohater.getBounds().intersects(e.getBounds()) && game.getSec()%2==0) {
+                if (game.bohater.getBounds().intersects(e.getBounds()) && game.getSec() % 2 == 0) {
                     attack(e);
                 }
 
-                if (game.bohater.getCurrentHp() <= 0) {
-                    JOptionPane.showMessageDialog(this, "Przegrałeś");
-                    System.exit(0);
-                }
+
                 repaint();
 
-                for(Skill s : game.skills) {
-                    s.setX(s.getX()+s.getDeltaX());
-                    s.setY(s.getY()+s.getDeltaY());
+                for (Skill s : game.skills) {
+                    s.setX(s.getX() + s.getDeltaX());
+                    s.setY(s.getY() + s.getDeltaY());
                     repaint();
                 }
 
+                if (e.getCurrentHp() <= 0) {
+                    game.enemiesToRemove.add(e);
+                }
 
             }
             spawnEnemy();
@@ -159,21 +161,33 @@ public class PanelGame extends JPanel {
 //            System.out.println(game.getNumberOfEnemies());
 //            System.out.println(game.enemies.size());
 
+
+            if (game.bohater.getCurrentHp() <= 0) {
+                Window win = SwingUtilities.getWindowAncestor(this);
+                win.dispose();
+                FrameScores scoresGame = new FrameScores(new PanelScores());
+                break;
+            }
+
+            game.enemiesRemoval();
+            countSystem();
         }
 
 
     }
 
+
     public void attack(Enemy e) {
 
         game.bohater.setCurrentHp(game.bohater.getCurrentHp() - e.getBaseDmg());
 
+        e.setCurrentHp(e.getCurrentHp() - game.bohater.getBaseDmg());
     }
 
     public void spawnEnemy() {// nie działa tak jakbym chciał
 
 
-        if (game.getSec()%3==0)
+        if (game.getSec() % 3 == 0)
             game.setNumberOfEnemies(game.getNumberOfEnemies() + 1);
 
         for (int i = 0; i < game.getNumberOfEnemies() - game.enemies.size(); i++) {
@@ -188,6 +202,16 @@ public class PanelGame extends JPanel {
 
 
     }
+
+    public void countSystem(){
+        int timeScore;
+        timeScore =  game.getSec() * 2;
+        score = game.bohater.getCurrentExp() * 3 + timeScore;
+
+
+    }
+
+
 
     public Point[] getinitialPoints(Enemy e) {
 
