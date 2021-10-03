@@ -27,9 +27,10 @@ public enum Level { // enum z wymaganym exp, na określony poziom
 
     Level(int lvl,int exp) {
         this.exp = exp;
+        this.level = lvl;
     }
 
-    public int getLevel() {
+    public int getLevel(int i) {
         return level;
     }
 

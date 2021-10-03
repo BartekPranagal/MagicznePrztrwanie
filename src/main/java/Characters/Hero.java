@@ -3,7 +3,6 @@ package Characters;
 import Skills.*;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
@@ -12,7 +11,15 @@ import java.util.Map;
 
 public class Hero extends Character{ // klasa bohater
 
-    private int currevtLevel = 1;
+    private int currentLevel = 1;
+
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
 
     private int currentExp;
     private Level level;

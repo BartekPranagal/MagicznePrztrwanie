@@ -67,13 +67,18 @@ public class PanelGame extends JPanel {
         g.fillRect(35, 35, 200, 25);
         g.setColor(Color.YELLOW); // // pasek expa
         g.fillRect(35, 35, game.bohater.getCurrentExp(), 25);
-
+        g.setColor(Color.BLACK);
+        g.drawString(String.valueOf(game.bohater.getLevel()), 125, 55);
+        g.setColor(Color.BLACK); // dodanie ze pokazuje jak sie nabijaja punkty.
+        g.drawString(String.valueOf(game.countSystem()),100,100);
 
     }
 
+
+
     public PanelGame() {
 
-        music.playSound();
+       // music.playSound();
         game = new Game();
 
         timeCounter = new TimerTask() {
@@ -213,7 +218,11 @@ public class PanelGame extends JPanel {
                 break;
             }
 
+            if(game.bohater.getCurrentExp()>=game.bohater.getLevel().getExpRequired(game.bohater.getCurrentLevel())){
+                game.bohater.setCurrentLevel(+1);
+                System.out.println(game.bohater.getCurrentLevel());
 
+            }
 
 
         }
@@ -231,6 +240,12 @@ public class PanelGame extends JPanel {
 
 
     }
+
+    public void getScore(){
+        int wynik =0;
+
+    }
+
 
     public void spawnEnemy() {
 

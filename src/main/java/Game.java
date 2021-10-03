@@ -6,12 +6,11 @@ import Skills.Skill;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 public class Game {
 
     private int sec = 0;
-    private int  score = 0;
+    private int  score =0;
     Hero bohater;
     List<Enemy> enemies = new ArrayList<Enemy>();
     List<Enemy> enemiesToRemove = new ArrayList<Enemy>();
@@ -19,6 +18,7 @@ public class Game {
     List<Skill> skills = new ArrayList<Skill>();
     List<Skill> skillsToRemove = new ArrayList<Skill>();
 
+    List<Level> levels = new ArrayList<>();
     Point cursor;
     private int numberOfEnemies = 10;
 
@@ -52,6 +52,7 @@ public class Game {
         bohater.setMaxHp(200);
         bohater.setCurrentHp(200);
         bohater.setBaseDmg(70);
+        bohater.setLevel(Level._1);
 
     }
 
@@ -73,6 +74,12 @@ public class Game {
         skills.addAll(this.skills);
         return skills;
     }
+
+    public ArrayList<Level> getLevels(){
+        ArrayList<Level> levels = new ArrayList<>();
+        levels.addAll(this.levels);
+        return levels;
+    }
     public void enemiesRemoval(){
 
         for (Enemy e : enemiesToRemove) {
@@ -91,12 +98,15 @@ public class Game {
             }
         }
     }
-    public void countSystem(){
+    public int countSystem(){
         int timeScore;
         timeScore =  getSec() * 2;
         score = bohater.getCurrentExp() * 3 + timeScore;
 
 
+        return score;
     }
+
+
 
 }
