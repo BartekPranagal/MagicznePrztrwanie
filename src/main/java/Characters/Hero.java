@@ -21,10 +21,18 @@ public class Hero extends Character{ // klasa bohater
     private int movementSpeed;
     private Map<String, Skill> magicBook = new HashMap<String, Skill>();
     private Map<Skill, List<Skill>> attacks = new HashMap<Skill, List<Skill>>();
-
+    private boolean isAlive = getCurrentHp() > 0;
     private double attackRange = 300;
 
+    Enemy closestEnemy;
 
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
 
     public int getMovementSpeed() {
         return movementSpeed;
@@ -67,6 +75,7 @@ public class Hero extends Character{ // klasa bohater
     }
 
     public Hero() {
+
         try {
             heroImage = ImageIO.read(new File("postac.png"));
         }catch(Exception e ) {
@@ -77,6 +86,14 @@ public class Hero extends Character{ // klasa bohater
     public void attack() { // atakowanie wrogów
 
 
+    }
+
+    public Enemy getClosestEnemy() {
+        return closestEnemy;
+    }
+
+    public void setClosestEnemy(Enemy closestEnemy) {
+        this.closestEnemy = closestEnemy;
     }
 
     public Enemy findClosestEnemy(List<Enemy> enemies) { // szuka najbliższego wroga

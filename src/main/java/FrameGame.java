@@ -1,4 +1,5 @@
 import Skills.ElectricShock;
+import Skills.FireBolt;
 
 import javax.swing.JFrame;
 import java.awt.*;
@@ -82,7 +83,8 @@ public class  FrameGame extends JFrame implements MouseMotionListener, KeyListen
             music.playSound();
         }
         if(e.getKeyCode() == KeyEvent.VK_SPACE) {
-            pg.game.skills.add(new ElectricShock(pg.game.bohater.getPosition(),pg.game.bohater.findClosestEnemy(pg.game.enemies).getPosition()));
+
+            pg.game.skills.add(pg.game.addFireBolt());
             System.out.println(pg.game.skills.size());
         }
     }

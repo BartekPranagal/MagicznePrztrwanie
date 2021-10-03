@@ -1,4 +1,5 @@
 import Characters.*;
+import Skills.FireBolt;
 import Skills.Skill;
 
 import java.awt.geom.AffineTransform;
@@ -15,9 +16,7 @@ public class PanelGame extends JPanel {
 
     Game game;
 
-    private final int width = 1000;
-    private final int height = 800;
-    private int  score = 0;
+    private final int width = 1000, height = 800;
     private BufferedImage tlo;
     Music music = new Music();
     Timer timer = new Timer();
@@ -38,43 +37,42 @@ public class PanelGame extends JPanel {
 
         paintHero(g, game.bohater.getX(), game.bohater.getY());
 
-        for (Enemy e : game.enemies) {
-            e.drawEnemy(g, e.getEnemyType(), e.getX(), e.getY(), e.getWidth(), e.getHeight());
+        for (Enemy e : game.getEnemies()) {
+           e.drawEnemy(g,e.getEnemyType(),e.getX(),e.getY(),e.getWidth(),e.getHeight());
         }
 
-        for (Skill s : game.skills) {
+        for ( Skill s : game.getSkills()) {
 //            Graphics2D g2d = (Graphics2D) g;
 //            AffineTransform old = g2d.getTransform();
 //            g2d.setTransform(AffineTransform.getRotateInstance(Math.toDegrees(Math.atan2(game.bohater.findClosestEnemy(game.enemies).getPosition().x-game.bohater.getPosition().x,game.bohater.findClosestEnemy(game.enemies).getPosition().y-game.bohater.getPosition().y))));
 //            g2d.drawImage(s.getSkillImage(),game.bohater.getPosition().x,game.bohater.getPosition().y,s.getWidth(),s.getHeight(),null);
 //            g2d.setTransform(old);
-            s.drawSkill(g, game.bohater.findClosestEnemy(game.enemies).getPosition().x - game.bohater.getPosition().x, game.bohater.findClosestEnemy(game.enemies).getPosition().y - game.bohater.getPosition().y, s.getWidth(), s.getHeight());
+            s.drawSkill(g,s.getX(),s.getY(),s.getWidth(),s.getHeight());
         }
+
         g.setColor(Color.BLUE);
         g.drawString("HP:", 5, 25);
-
         g.setColor(Color.gray);// pasek zdrowia po prostu jako miejsce na zdrowie, nie ma tutaj max ani min hp
         g.fillRect(35, 5, 200, 25);
-
         g.setColor(Color.red); // jak stracimy zycie to powoli odsłania się biały pasek
         g.fillRect(35, 5, game.bohater.getMaxHp(), 25);
-
         g.setColor(Color.green); // pasek zdrowia obecnego
         g.fillRect(35, 5, game.bohater.getCurrentHp(), 25);
 
         g.setColor(Color.BLUE);
-
-        g.drawString("EXP:", 5, 55);
+        g.drawString("EXP:",5 , 55);
         g.setColor(Color.magenta); // // pasek expa pustego
         g.fillRect(35, 35, 200, 25);
         g.setColor(Color.YELLOW); // // pasek expa
         g.fillRect(35, 35, game.bohater.getCurrentExp(), 25);
 
 
+
+
     }
 
     public PanelGame() {
-
+        music.playSound();
         game = new Game();
 
         timeCounter = new TimerTask() {
@@ -91,7 +89,7 @@ public class PanelGame extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (Enemy e : game.enemies) {
+        for (Enemy e : game.getEnemies()) {
             try {
                 e.setEnemyImage(ImageIO.read(new File(e.getEnemyType().getPath())));
             } catch (IOException ioException) {
@@ -100,8 +98,8 @@ public class PanelGame extends JPanel {
         }
 
 
-        new Thread(() -> animation()).start();
 
+        new Thread(() -> animation()).start();
     }
 
     public void paintHero(Graphics g, int x, int y) {
@@ -110,10 +108,10 @@ public class PanelGame extends JPanel {
 
     public void animation() { // metoda odpowiedzialna za animacje
 
-
         while (true) {
+            spawnEnemy();
 
-            for (Enemy e : game.enemies) {
+            for (Enemy e : game.getEnemies()) {
 
                 Point heroP = new Point(game.bohater.getX() + game.bohater.getWidth() / 2, game.bohater.getY() + game.bohater.getHeight() / 2);
                 Point enemyP = new Point(e.getX() + e.getWidth() / 2, e.getY() + e.getHeight() / 2);
@@ -135,33 +133,45 @@ public class PanelGame extends JPanel {
                         exception.printStackTrace();
                     }
                 }
-
-                if (game.bohater.getBounds().intersects(e.getBounds()) && game.getSec() % 2 == 0) {
+                if (game.bohater.getBounds().intersects(e.getBounds()) && game.getSec()%2==0) {
                     attack(e);
                 }
 
+            }
+            repaint();
+//            System.out.println(game.bohater.findClosestEnemy(game.enemies).getEnemyType().getName());
 
-                repaint();
 
-                for (Skill s : game.skills) {
-                    s.setX(s.getX() + s.getDeltaX());
-                    s.setY(s.getY() + s.getDeltaY());
-                    repaint();
-                }
+            for(Skill s : game.getSkills()) {
+                Point enemyP = new Point(game.bohater.findClosestEnemy(game.enemies).getX() + game.bohater.findClosestEnemy(game.enemies).getX() / 2,
+                        game.bohater.findClosestEnemy(game.enemies).getY()  + game.bohater.findClosestEnemy(game.enemies).getY()  / 2);
+                Point skillP = new Point(s.getX() + s.getWidth() / 2, s.getY() + s.getHeight() / 2);
 
-                if (e.getCurrentHp() <= 0) {
-                    game.enemiesToRemove.add(e);
+                if (!skillP.equals(enemyP)) {
+                    System.out.println(s.getSpeed());
+                    if (skillP.x > enemyP.x)
+                        s.setX(s.getX() - s.getSpeed());
+                    if (skillP.x < enemyP.x)
+                        s.setX(s.getX() + s.getSpeed());
+                    if (skillP.y > enemyP.y)
+                        s.setY(s.getY() - s.getSpeed());
+                    if (skillP.y < enemyP.y)
+                        s.setY(s.getY() + s.getSpeed());
+
+                    try {
+                        Thread.sleep(5);
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+
                 }
 
             }
-            spawnEnemy();
-            System.out.println(game.getSec());
-//            System.out.println(game.bohater.findClosestEnemy(game.enemies.));
-//            System.out.println(game.bohater.getCurrentHp());
-//            System.out.println(game.getNumberOfEnemies());
-//            System.out.println(game.enemies.size());
-
-
+            repaint();
+            if(game.getSec()%2 == 0) {
+                game.addFireBolt();
+            }
+            repaint();
             if (game.bohater.getCurrentHp() <= 0) {
                 Window win = SwingUtilities.getWindowAncestor(this);
                 win.dispose();
@@ -169,31 +179,36 @@ public class PanelGame extends JPanel {
                 break;
             }
 
-            game.enemiesRemoval();
-            countSystem();
+//            System.out.println(game.bohater.findClosestEnemy(game.enemies.));
+//            System.out.println(game.bohater.getCurrentHp());
+//            System.out.println(game.getNumberOfEnemies());
+//            System.out.println(game.enemies.size());
+
         }
-
-
+        repaint();
+        game.enemiesRemoval();
+        game.countSystem();
     }
-
 
     public void attack(Enemy e) {
 
         game.bohater.setCurrentHp(game.bohater.getCurrentHp() - e.getBaseDmg());
-
         e.setCurrentHp(e.getCurrentHp() - game.bohater.getBaseDmg());
+        System.out.println(e.getCurrentHp());
+
+
     }
 
-    public void spawnEnemy() {// nie działa tak jakbym chciał
+    public void spawnEnemy() {
 
 
-        if (game.getSec() % 3 == 0)
+        if (game.getSec()%3==0)
             game.setNumberOfEnemies(game.getNumberOfEnemies() + 1);
 
         for (int i = 0; i < game.getNumberOfEnemies() - game.enemies.size(); i++) {
 
             Enemy temp = game.addRandomEnemy();
-            Point p = new Point(getinitialPoints(temp)[(int) (Math.random() * getinitialPoints(temp).length)]);
+            Point p = new Point(getInitialPoints(temp)[(int) (Math.random() * getInitialPoints(temp).length)]);
             temp.setX(p.x);
             temp.setY(p.y);
             game.enemies.add(temp);
@@ -203,17 +218,8 @@ public class PanelGame extends JPanel {
 
     }
 
-    public void countSystem(){
-        int timeScore;
-        timeScore =  game.getSec() * 2;
-        score = game.bohater.getCurrentExp() * 3 + timeScore;
 
-
-    }
-
-
-
-    public Point[] getinitialPoints(Enemy e) {
+    public Point[] getInitialPoints(Enemy e) {
 
         Point[] points = {
                 new Point(0, (int) (Math.random() * (getHeight() - e.getHeight()))),

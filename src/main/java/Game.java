@@ -1,4 +1,5 @@
 import Characters.*;
+import Skills.FireBolt;
 import Skills.Skill;
 
 
@@ -10,10 +11,14 @@ import java.util.Timer;
 public class Game {
 
     private int sec = 0;
+    private int  score = 0;
     Hero bohater;
     List<Enemy> enemies = new ArrayList<Enemy>();
     List<Enemy> enemiesToRemove = new ArrayList<Enemy>();
+
     List<Skill> skills = new ArrayList<Skill>();
+    List<Skill> skillsToRemove = new ArrayList<Skill>();
+
     Point cursor;
     private int numberOfEnemies = 10;
 
@@ -48,13 +53,25 @@ public class Game {
         bohater.setCurrentHp(200);
         bohater.setBaseDmg(70);
 
-
     }
 
     public Enemy addRandomEnemy() {
         return new Enemy(EnemyType.values()[(int)(Math.random()*EnemyType.values().length)]);
     }
+    public Skill addFireBolt() {
+        return new FireBolt(bohater.getPosition().x,bohater.getPosition().y);
+    }
 
+    public ArrayList<Enemy> getEnemies() {
+        ArrayList<Enemy> enemies = new ArrayList<>();
+        enemies.addAll(this.enemies);
+        return enemies;
+    }
+    public ArrayList<Skill> getSkills() {
+        ArrayList<Skill> skills = new ArrayList<>();
+        skills.addAll(this.skills);
+        return skills;
+    }
     public void enemiesRemoval(){
 
         for (Enemy e : enemiesToRemove) {
@@ -64,6 +81,13 @@ public class Game {
                     enemies.remove(i);
             }
         }
+    }
+    public void countSystem(){
+        int timeScore;
+        timeScore =  getSec() * 2;
+        score = bohater.getCurrentExp() * 3 + timeScore;
+
+
     }
 
 }

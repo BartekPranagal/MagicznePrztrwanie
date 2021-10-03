@@ -12,7 +12,7 @@ public class Skill {
 
     private String name;
 
-    private double x,y;
+    private int x,y;
     private int width, height;
 
     private int dmg;
@@ -52,19 +52,19 @@ public class Skill {
         this.deltaY = deltaY;
     }
 
-    public double getX() {
+    public int getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    public double getY() {
+    public int getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(int y) {
         this.y = y;
     }
 
@@ -147,21 +147,19 @@ public class Skill {
     public Skill() {
 
     }
-    public Skill (Point hero, Point enemy) {
-        int startX = hero.x;
-        int startY = hero.y;
-
-        double deltaX = enemy.x - hero.x;
-        double deltaY = enemy.y-hero.y;
-
-        this.degree = Math.sqrt(deltaX*deltaX + deltaY+deltaY);
-
-        this.deltaX = deltaX/degree*getSpeed();
-        this.deltaY = deltaY/degree*getSpeed();
-
-
-
-    }
+//    public Skill (Point hero, Point enemy) {
+//        int startX = hero.x;
+//        int startY = hero.y;
+//
+//        double deltaX = enemy.x - hero.x;
+//        double deltaY = enemy.y-hero.y;
+//
+//        this.degree = Math.sqrt(deltaX*deltaX + deltaY+deltaY);
+//
+//        this.deltaX = deltaX/degree*getSpeed();
+//        this.deltaY = deltaY/degree*getSpeed();
+//
+//    }
     public void drawSkill(Graphics g,int x,int y, int width,int height) {
         g.drawImage(skillImage,(int)x,(int)y,width,height,null);
 

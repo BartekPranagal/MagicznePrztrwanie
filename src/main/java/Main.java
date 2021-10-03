@@ -4,11 +4,12 @@ public class Main {
 
     public static void main(String [] args) {
         DataBase db = DataBase.getPlayerDataBase();
-        System.out.println(db.getScoreBoard().isEmpty());
+
 
 
         for(String key : db.getScoreBoard().keySet())
             System.out.println(key + " " + db.getScoreBoard().get(key));
+
 
         EventQueue.invokeLater(new Runnable() {
 
@@ -17,7 +18,9 @@ public class Main {
 
             }
 
+
         });
+
 
     }
 }

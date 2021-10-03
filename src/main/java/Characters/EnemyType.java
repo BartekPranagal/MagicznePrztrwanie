@@ -8,8 +8,8 @@ public enum EnemyType {//przykładowi wrogowie w enum
     SPEEDY("Fast",40,40,50,6,3,0,15,"SPEEDY_LEFT.png"),
     FAT("Fat",80,80,200,15,1,0,30,"FAT_LEFT.png"),
     KABOOM("Kaboom",50,50,75,25,2,0,25,"KABOOM_LEFT.png"),
-    DIVIDER("Divider",100,100,250,20,1,0,50,"fat.png"),
-    SMALL("Small",30,30,60,3,2,0,15,"fat.png");
+    DIVIDER("Divider",100,100,250,20,1,0,50,"DIVIDER_LEFT.png"),
+    SMALL("Small",30,30,60,3,2,0,15,"SMALL_LEFT.png");
 
     private String name,path;
     private int width,height,maxHp,baseDmg,speed,armor,expValue;
