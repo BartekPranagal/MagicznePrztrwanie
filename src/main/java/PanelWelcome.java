@@ -25,7 +25,7 @@ public class PanelWelcome extends JPanel implements ActionListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(tloWelcome,0,0,getWidth(),getHeight(),null);
+        g.drawImage(tloWelcome, 0, 0, getWidth(), getHeight(), null);
     }
 
     @Override
@@ -94,37 +94,72 @@ public class PanelWelcome extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            JOptionPane.showMessageDialog(this, "Jeszcze nic tu nie ma ");
+            DataBase.getPlayerDataBase().loadScoreBoard();
+
+            for (Player p : DataBase.getPlayerDataBase().getPlayers()) {
+                System.out.println(p.getLogin() + " " + p.getPassword());
+                   if(p.getLogin().equals(loginField.getText()) && p.getPassword().equals(passwordField.getText())){
+                        Window win = SwingUtilities.getWindowAncestor(this);
+                        win.dispose();
+                        FrameGame frameGame = new FrameGame(new PanelGame());
+
+
+                }else {
+                    JOptionPane.showMessageDialog(this, "Upppsss, coś posżło nie tak, spróbuj jeszcze raz");
+                    loginField.setText("");
+                    passwordField.setText("");
+                }
+
+            }
+
 
         }
         if (e.getSource() == registerButton) {
+
             Window win = SwingUtilities.getWindowAncestor(this);
             win.dispose();
-
             FrameRegister fR = new FrameRegister(new PanelRegister());
         }
         if (e.getSource() == playAsGuestButton) {
+
             Window win = SwingUtilities.getWindowAncestor(this);
             win.dispose();
             FrameGame frameGame = new FrameGame(new PanelGame());
 
-
         }
 
-        if(e.getSource()== musicButton){
+        if (e.getSource() == musicButton) {
             muzyka.playSound();
 
         }
-
-
-
-
-        if (showPasswordButton.isSelected() == true) {
+        if (showPasswordButton.isSelected()) {
             passwordField.setEchoChar((char) 0);
 
         } else {
             passwordField.setEchoChar('*');
         }
+    }
+
+    public boolean loginVeryfication(String loginGiven, String loginRequired) {
+        boolean isCorrect = false;
+
+        if (loginGiven.equals(loginRequired)) {
+            isCorrect = true;
+        } else {
+            JOptionPane.showMessageDialog(this, "NIeprawidłowy login");
+        }
+        return isCorrect;
+
+    }
+
+    public boolean passwordVeryfication(String passwordGiven,String passwordRequired) {
+        boolean isCorrect = false;
+
+        if(passwordGiven.equals(passwordRequired)){
+            isCorrect = true;
+        }else
+            JOptionPane.showMessageDialog(this,"Nieprawidłowe hasło");
+        return isCorrect;
     }
 
 

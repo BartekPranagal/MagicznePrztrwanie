@@ -16,9 +16,11 @@ Skills\MagicBullet.class
 Skills\Skill.class
 Player.class
 PanelRegister$1.class
+Music.class
 Characters\Level.class
 Characters\EnemyType.class
 DataBase.class
 Skills\FireBolt.class
 FrameScores.class
+PanelGame$1.class
 Game.class

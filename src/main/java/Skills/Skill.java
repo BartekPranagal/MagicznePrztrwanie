@@ -10,19 +10,26 @@ public class Skill {
 
     Hero hero;
 
+    public boolean isDirectionSet() {
+        return isDirectionSet;
+    }
+
+    public void setDirectionSet(boolean directionSet) {
+        isDirectionSet = directionSet;
+    }
+
+    private boolean isDirectionSet = false;
     private String name;
 
     private int x,y;
     private int width, height;
+    private int velX,velY;
 
     private int dmg;
     private int level;
     private int cooldown;
     private int speed;
 
-    private double deltaX;
-    private double deltaY;
-    private double degree;
 
     private boolean isVisible = false;
 
@@ -36,21 +43,6 @@ public class Skill {
         this.name = name;
     }
 
-    public double getDeltaX() {
-        return deltaX;
-    }
-
-    public void setDeltaX(double deltaX) {
-        this.deltaX = deltaX;
-    }
-
-    public double getDeltaY() {
-        return deltaY;
-    }
-
-    public void setDeltaY(double deltaY) {
-        this.deltaY = deltaY;
-    }
 
     public int getX() {
         return x;
@@ -66,6 +58,22 @@ public class Skill {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getVelX() {
+        return velX;
+    }
+
+    public void setVelX(int velX) {
+        this.velX = velX;
+    }
+
+    public int getVelY() {
+        return velY;
+    }
+
+    public void setVelY(int velY) {
+        this.velY = velY;
     }
 
     public int getWidth() {
@@ -134,14 +142,6 @@ public class Skill {
 
     public Rectangle getBounds() {
         return new Rectangle((int)x,(int)y,width,height);
-    }
-
-    public double getDegree() {
-        return degree;
-    }
-
-    public void setDegree(double degree) {
-        this.degree = degree;
     }
 
     public Skill() {

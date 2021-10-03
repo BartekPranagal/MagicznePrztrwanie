@@ -1,6 +1,8 @@
 import Characters.*;
 import Skills.FireBolt;
 import Skills.Skill;
+import org.postgresql.gss.GSSOutputStream;
+import org.w3c.dom.ls.LSOutput;
 
 import java.awt.geom.AffineTransform;
 import java.util.Timer;
@@ -67,11 +69,10 @@ public class PanelGame extends JPanel {
         g.fillRect(35, 35, game.bohater.getCurrentExp(), 25);
 
 
-
-
     }
 
     public PanelGame() {
+
         music.playSound();
         game = new Game();
 
@@ -109,6 +110,7 @@ public class PanelGame extends JPanel {
     public void animation() { // metoda odpowiedzialna za animacje
 
         while (true) {
+            game.bohater.findClosestEnemy(game.enemies);
             spawnEnemy();
 
             for (Enemy e : game.getEnemies()) {
@@ -142,53 +144,73 @@ public class PanelGame extends JPanel {
 //            System.out.println(game.bohater.findClosestEnemy(game.enemies).getEnemyType().getName());
 
 
-            for(Skill s : game.getSkills()) {
-                int x = game.bohater.findClosestEnemy(game.enemies).getX() + game.bohater.findClosestEnemy(game.enemies).getWidth()/2;
-                int y = game.bohater.findClosestEnemy(game.enemies).getY()+ game.bohater.findClosestEnemy(game.enemies).getHeight()/2;
 
-                Point enemyP = new Point(x,y);
-                Point skillP = new Point(s.getX() + s.getWidth() / 2, s.getY() + s.getHeight() / 2);
 
-//                    System.out.println(s.getSpeed());
-                    if (skillP.x > enemyP.x)
-                        s.setX(s.getX() - s.getSpeed());
-                    if (skillP.x < enemyP.x)
-                        s.setX(s.getX() + s.getSpeed());
-                    if (skillP.y > enemyP.y)
-                        s.setY(s.getY() - s.getSpeed());
-                    if (skillP.y < enemyP.y)
-                        s.setY(s.getY() + s.getSpeed());
+            for (Skill s : game.getSkills()) {
+                if(!s.isDirectionSet()) {
+                    int x = game.bohater.findClosestEnemy(game.enemies).getX() + game.bohater.findClosestEnemy(game.enemies).getWidth() / 2;
+                    int y = game.bohater.findClosestEnemy(game.enemies).getY() + game.bohater.findClosestEnemy(game.enemies).getHeight() / 2;
 
+                    Point skillP = new Point(s.getX() + s.getWidth() / 2, s.getY() + s.getHeight() / 2);
+
+                    if (skillP.x > x)
+                        s.setVelX(s.getSpeed()*(-1));
+                        s.setX(s.getX()+s.getVelX());
+                    if (skillP.x < x)
+                        s.setVelX(s.getSpeed());
+                        s.setX(s.getX()+s.getVelX());
+                    if (skillP.y > y)
+                        s.setVelY(s.getSpeed()*(-1));
+                        s.setY(s.getY()+s.getVelY());
+                    if (skillP.y < y)
+                        s.setVelY(s.getSpeed());
+                        s.setY(s.getY()+s.getVelY());
+
+                    s.setDirectionSet(true);
+                } else {
+                    s.setX(s.getX()+s.getVelX());
+                    s.setY(s.getY()+s.getVelY());
+
+                }
                     try {
-                        Thread.sleep(5);
+                        Thread.sleep(4);
                     } catch (Exception exception) {
                         exception.printStackTrace();
                     }
 
 
-
-
             }
 
             repaint();
-            if(game.getSec()%2 == 0) {
-                game.addFireBolt();
-                System.out.println("dodany FB");
+
+            for (Skill s : game.getSkills()) {
+                for (Enemy e : game.getEnemies()) {
+
+                    if(s.getBounds().intersects(e.getBounds())) {
+                        game.skillsToRemove.add(s);
+                        e.setCurrentHp(e.getCurrentHp() - s.getDmg());
+                        System.out.println(e.getCurrentHp());
+                        game.skillsRemoval();
+
+                    }
+                }
+
             }
-            repaint();
+
+
+            for(Enemy e : game.getEnemies()) {
+                if(e.getCurrentHp() <=0) {
+                    game.enemiesToRemove.add(e);
+                    game.bohater.setCurrentExp(game.bohater.getCurrentExp()+e.getEnemyType().getExpValue());
+                    game.enemiesRemoval();
+                }
+            }
 
             if (game.bohater.getCurrentHp() <= 0) {
                 Window win = SwingUtilities.getWindowAncestor(this);
                 win.dispose();
                 FrameScores scoresGame = new FrameScores(new PanelScores());
                 break;
-            }
-
-            for(Enemy e : game.getEnemies()) {
-                if(e.getCurrentHp() <=0) {
-                    game.enemiesToRemove.add(e);
-                    game.enemiesRemoval();
-                }
             }
 
 

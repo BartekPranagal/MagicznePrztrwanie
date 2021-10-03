@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class Hero extends Character{ // klasa bohater
 
-    //private int level;
+    private int currevtLevel = 1;
 
     private int currentExp;
     private Level level;

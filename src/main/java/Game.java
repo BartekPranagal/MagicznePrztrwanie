@@ -47,7 +47,7 @@ public class Game {
         bohater.setY(400);
         bohater.setWidth(50);
         bohater.setHeight(50);
-        bohater.setSpeed(1);
+        bohater.setSpeed(2);
         bohater.setMovementSpeed(16);
         bohater.setMaxHp(200);
         bohater.setCurrentHp(200);
@@ -58,7 +58,12 @@ public class Game {
     public Enemy addRandomEnemy() {
         return new Enemy(EnemyType.values()[(int)(Math.random()*EnemyType.values().length)]);
     }
-    public Skill addFireBolt() {
+    public  Skill addFireBolt() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException interruptedException) {
+            interruptedException.printStackTrace();
+        }
         return new FireBolt(bohater.getPosition().x,bohater.getPosition().y);
     }
 
@@ -79,6 +84,14 @@ public class Game {
 
                 if (e.equals(getEnemies().get(i)))
                     enemies.remove(i);
+            }
+        }
+    }
+    public void skillsRemoval() {
+        for(Skill s : skillsToRemove) {
+            for(int i = 0; i < getSkills().size(); i++) {
+                if(s.equals(getSkills().get(i)))
+                    skills.remove(i);
             }
         }
     }

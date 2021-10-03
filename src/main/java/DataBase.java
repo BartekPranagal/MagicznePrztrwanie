@@ -12,10 +12,9 @@ public class DataBase {
 
     private List<Player> players = new ArrayList<Player>();
     private Map<String, Integer> scoreBoard = new HashMap<>();
-
+    private SessionFactory session = new Configuration().configure().buildSessionFactory();
     private DataBase() {
         sampleDataBase();
-        loadScoreBoard();
 
     }
 
@@ -33,17 +32,21 @@ public class DataBase {
     }
 
     public List<Player> getPlayers() {
-        return players;
+        ArrayList<Player> players1 = new ArrayList<>();
+        players1.addAll(players);
+        System.out.println(players1.isEmpty());
+        System.out.println(players.isEmpty());
+        return players1;
     }
 
     public Map<String, Integer> getScoreBoard() {
         return scoreBoard;
     }
 
-    private void sampleDataBase() {
+    public void sampleDataBase() {
 
         try {
-            SessionFactory session = new Configuration().configure().buildSessionFactory();
+
             Session s = session.openSession();
 
             s.beginTransaction();
@@ -55,7 +58,6 @@ public class DataBase {
             p1.setMaxRecord(0);
             p1.setNickName("Borek");
             p1.setPassword("Qwer1234");
-
             Player p2 = new Player();
             p2.setFirstName("Darek");
             p2.setLastName("Grudzień");
@@ -63,7 +65,6 @@ public class DataBase {
             p2.setMaxRecord(0);
             p2.setNickName("Gruda");
             p2.setPassword("Zaq12wsx");
-
             Player p3 = new Player();
             p3.setFirstName("Ania");
             p3.setLastName("Kwiecień");
@@ -71,21 +72,18 @@ public class DataBase {
             p3.setMaxRecord(0);
             p3.setNickName("AKA");
             p3.setPassword("Kwiatek666");
-
             s.save(p1);
             s.save(p2);
             s.save(p3);
 
-            s.getTransaction().commit();
-            s.close();
+           s.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void loadScoreBoard() {
+    public void loadScoreBoard() {
         try {
-            SessionFactory session = new Configuration().configure().buildSessionFactory();
             Session s = session.openSession();
 
             s.beginTransaction();
@@ -98,7 +96,8 @@ public class DataBase {
                 scoreBoard.put(((Player) o).getNickName(), ((Player) o).getMaxRecord());
             }
             s.getTransaction().commit();
-            s.close();
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,8 +106,6 @@ public class DataBase {
     public void addPlayer(Player player) {
 
         try {
-
-            SessionFactory session = new Configuration().configure().buildSessionFactory();
             Session s = session.openSession();
 
             s.beginTransaction();
@@ -116,7 +113,7 @@ public class DataBase {
             s.persist(player);
 
             s.getTransaction().commit();
-            s.close();
+
         }catch(Exception e ) {
             e.printStackTrace();
         }

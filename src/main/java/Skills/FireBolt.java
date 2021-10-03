@@ -6,21 +6,6 @@ import java.io.File;
 
 public class FireBolt extends Skill{
 
-//    public FireBolt(Point hero, Point enemy) {
-//        super(hero, enemy);
-//        setName("Fire Bolt");
-//        setWidth(30);
-//        setHeight(20);
-//
-//        try {
-//
-//            setSkillImage(ImageIO.read(new File("FIREBALL.png")));
-//
-//        }catch (Exception e ) {
-//            e.printStackTrace();
-//        }
-//        setSpeed(1);
-//    }
     public FireBolt() {
 
     }
@@ -30,7 +15,8 @@ public class FireBolt extends Skill{
         setName("Fire Bolt");
         setWidth(30);
         setHeight(20);
-        setSpeed(2);
+        setSpeed(4);
+        setDmg(25);
         try {
 
             setSkillImage(ImageIO.read(new File("FIREBALL.png")));

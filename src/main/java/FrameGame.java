@@ -79,7 +79,6 @@ public class  FrameGame extends JFrame implements MouseMotionListener, KeyListen
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_M){
-
             music.playSound();
         }
         if(e.getKeyCode() == KeyEvent.VK_SPACE) {

@@ -28,4 +28,30 @@ public enum Level { // enum z wymaganym exp, na określony poziom
     Level(int lvl,int exp) {
         this.exp = exp;
     }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
+    }
+
+    public int getExpRequired(int lvl) {
+        int exp = 0;
+        for ( int i = 0 ; i < values().length;i++) {
+            if(lvl == values()[i].level)
+                exp = values()[i].exp;
+        }
+        return exp;
+    }
+
 }
